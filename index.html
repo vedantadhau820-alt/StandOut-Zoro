@@ -3048,6 +3048,7 @@ function gradeToClass(grade) {
   return grade.toLowerCase().replace("+", "plus");
 }
         
+    
         function renderMarketplace(cards) {
   const shop = document.getElementById("cardShop");
   shop.innerHTML = "";
@@ -3073,30 +3074,23 @@ function gradeToClass(grade) {
   });
 }
 
-        function renderMarketplace(cards) {
-  const shop = document.getElementById("cardShop");
-  shop.innerHTML = "";
+        document.querySelectorAll(".card-filters button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document
+      .querySelectorAll(".card-filters button")
+      .forEach(b => b.classList.remove("active"));
 
-  cards.forEach(card => {
-    const gradeClass = gradeToClass(card.grade);
+    btn.classList.add("active");
 
-    const div = document.createElement("div");
-    div.className = `flex-card grade-${gradeClass}`;
+    const grade = btn.dataset.grade;
 
-    div.innerHTML = `
-      <img src="${card.image}" alt="${card.title}">
-      <span class="grade-badge">${card.grade}</span>
-
-      <div class="card-body">
-        <h3>${card.title}</h3>
-        <p class="card-quote">${card.quote || ""}</p>
-        <button class="buy-btn">${card.cost} pts</button>
-      </div>
-    `;
-
-    shop.appendChild(div);
+    renderMarketplace(
+      grade === "all"
+        ? cardCatalog
+        : cardCatalog.filter(c => c.grade === grade)
+    );
   });
-}
+});
 
         function buyCard(cardId) {
             const card = cardCatalog.find(c => c.id === cardId);
@@ -4813,6 +4807,7 @@ renderMarketplace(cardCatalog);
 </body>
 
 </html>
+
 
 
 
