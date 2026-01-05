@@ -3173,22 +3173,23 @@ function normalizeGrade(grade) {
     }[grade] ?? 0;
 }
 
-        let currentMarketplaceFilter = "ALL";
 
 window.addEventListener("load", () => {
-    document.querySelectorAll(".card-filters button").forEach(btn => {
-        btn.onclick = () => {
-            document.querySelectorAll(".card-filters button")
-                .forEach(b => b.classList.remove("active"));
+    document.addEventListener("click", (e) => {
+    if (!e.target.closest(".card-filters button")) return;
 
-            btn.classList.add("active");
+    const btn = e.target.closest("button");
 
-            currentMarketplaceFilter =
-                btn.textContent === "All" ? "ALL" : btn.textContent;
+    document.querySelectorAll(".card-filters button")
+        .forEach(b => b.classList.remove("active"));
 
-            renderMarketplace(currentMarketplaceFilter);
-        };
-    });
+    btn.classList.add("active");
+
+    currentMarketplaceFilter =
+        btn.textContent === "All" ? "ALL" : btn.textContent;
+
+    renderMarketplace(currentMarketplaceFilter);
+});
 });
 
         window.addEventListener("load", () => {
@@ -4815,6 +4816,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
