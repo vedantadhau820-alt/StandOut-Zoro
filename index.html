@@ -1570,7 +1570,7 @@
 
 
         let isMarketplaceOpen = false;
-
+let currentMarketplaceFilter = "ALL";
 
         const cardCatalog = [
 
@@ -3020,7 +3020,7 @@ function normalizeGrade(grade) {
     return grade.toLowerCase();
 }
         
-        function renderMarketplace(filterGrade = "ALL") {
+        function renderMarketplace(filterGrade = currentMarketplaceFilter) {
             const shop = document.getElementById("cardShop");
             if (!shop) return;
 
@@ -3030,27 +3030,26 @@ function normalizeGrade(grade) {
             let cards = [...cardCatalog];
 
             // 2️⃣ Apply grade filter
-            if (filterGrade !== "ALL") {
+            if (filterGrade !== currentMarketplaceFilter) {
                 cards = cards.filter(c => c.grade === filterGrade);
             }
 
             // 3️⃣ SORT LOGIC (THIS IS THE KEY)
             cards.sort((a, b) => {
-                const aOwned = ownedCards[a.id] ? 1 : 0;
-                const bOwned = ownedCards[b.id] ? 1 : 0;
+    if (filterGrade !== currentMarketplaceFilter) {
+        return gradeRank(b.grade) - gradeRank(a.grade);
+    }
 
-                // Owned cards first
-                if (aOwned !== bOwned) return bOwned - aOwned;
+    const aOwned = ownedCards[a.id] ? 1 : 0;
+    const bOwned = ownedCards[b.id] ? 1 : 0;
+    if (aOwned !== bOwned) return bOwned - aOwned;
 
-                const aCanBuy = completedMissions >= a.cost ? 1 : 0;
-                const bCanBuy = completedMissions >= b.cost ? 1 : 0;
+    const aCanBuy = completedMissions >= a.cost ? 1 : 0;
+    const bCanBuy = completedMissions >= b.cost ? 1 : 0;
+    if (aCanBuy !== bCanBuy) return bCanBuy - aCanBuy;
 
-                // Affordable cards next
-                if (aCanBuy !== bCanBuy) return bCanBuy - aCanBuy;
-
-                // Higher grade first
-                return gradeRank(b.grade) - gradeRank(a.grade);
-            });
+    return gradeRank(b.grade) - gradeRank(a.grade);
+});
 
             // 4️⃣ RENDER
             cards.forEach(card => {
@@ -3175,19 +3174,18 @@ function normalizeGrade(grade) {
 }
 
         document.querySelectorAll(".card-filters button").forEach(btn => {
-            btn.onclick = () => {
-                document.querySelectorAll(".card-filters button")
-                    .forEach(b => b.classList.remove("active"));
+    btn.onclick = () => {
+        document.querySelectorAll(".card-filters button")
+            .forEach(b => b.classList.remove("active"));
 
-                btn.classList.add("active");
+        btn.classList.add("active");
 
-                const grade = btn.textContent === "All"
-                    ? "ALL"
-                    : btn.textContent;
+        currentMarketplaceFilter =
+            btn.textContent === "All" ? "ALL" : btn.textContent;
 
-                renderMarketplace(grade);
-            };
-        });
+        renderMarketplace(currentMarketplaceFilter);
+    };
+});
 
         window.addEventListener("load", () => {
             renderMarketplace();
@@ -4813,6 +4811,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
