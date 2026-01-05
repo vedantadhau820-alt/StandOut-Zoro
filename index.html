@@ -1198,6 +1198,20 @@
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
+        /* S+ */
+.grade-splus .grade-badge {
+  background: linear-gradient(135deg, gold, orange);
+  color: #000;
+  box-shadow: 0 0 12px gold;
+}
+
+/* X */
+.grade-x .grade-badge {
+  background: linear-gradient(135deg, #ec4899, #9333ea);
+  color: #fff;
+  box-shadow: 0 0 12px #ec4899;
+}
     </style>
 </head>
 
@@ -1307,14 +1321,15 @@
 
         <!-- Filter Tabs -->
         <div class="card-filters">
-            <button class="active">All</button>
-            <button>S</button>
-            <button>A</button>
-            <button>B</button>
-            <button>C</button>
-            <button>D</button>
-            <button>E</button>
-        </div>
+  <button data-grade="all" class="active">All</button>
+  <button data-grade="S+">S+</button>
+  <button data-grade="S">S</button>
+  <button data-grade="A">A</button>
+  <button data-grade="B">B</button>
+  <button data-grade="C">C</button>
+  <button data-grade="D">D</button>
+  <button data-grade="X">X</button>
+</div>
 
         <!-- Card Grid -->
         <div class="card-grid" id="cardShop"></div>
@@ -1559,7 +1574,23 @@
             }
         }
 
+document.querySelectorAll(".card-filters button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document
+      .querySelectorAll(".card-filters button")
+      .forEach(b => b.classList.remove("active"));
 
+    btn.classList.add("active");
+
+    const grade = btn.dataset.grade;
+
+    renderMarketplace(
+      grade === "all"
+        ? cardCatalog
+        : cardCatalog.filter(c => c.grade === grade)
+    );
+  });
+});
 
         let isMarketplaceOpen = false;
 
@@ -3009,6 +3040,10 @@ image: "Images/S+14.jpg" },
 
         let ownedCards = JSON.parse(localStorage.getItem("ownedCards")) || {};
 
+function gradeToClass(grade) {
+  return grade.toLowerCase().replace("+", "plus");
+}
+        
         function renderMarketplace(cards) {
   const shop = document.getElementById("cardShop");
   shop.innerHTML = "";
@@ -3029,10 +3064,32 @@ image: "Images/S+14.jpg" },
         <button class="buy-btn">${card.cost} pts</button>
       </div>
     `;
+        const shop = document.getElementById("cardShop");
+  shop.innerHTML = "";
+
+  cards.forEach(card => {
+    const gradeClass = gradeToClass(card.grade);
+
+    const div = document.createElement("div");
+    div.className = `flex-card grade-${gradeClass}`;
+
+    div.innerHTML = `
+      <img src="${card.image}" alt="${card.title}">
+      <span class="grade-badge">${card.grade}</span>
+
+      <div class="card-body">
+        <h3>${card.title}</h3>
+        <p class="card-quote">${card.quote}</p>
+        <button class="buy-btn">${card.cost} pts</button>
+      </div>
+    `;
+
 
     shop.appendChild(div);
   });
 }
+
+    renderMarketplace(cardCatalog);
 
         function buyCard(cardId) {
             const card = cardCatalog.find(c => c.id === cardId);
@@ -4749,6 +4806,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
