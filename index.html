@@ -3173,18 +3173,22 @@ function normalizeGrade(grade) {
     }[grade] ?? 0;
 }
 
-        document.querySelectorAll(".card-filters button").forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll(".card-filters button")
-            .forEach(b => b.classList.remove("active"));
+        let currentMarketplaceFilter = "ALL";
 
-        btn.classList.add("active");
+window.addEventListener("load", () => {
+    document.querySelectorAll(".card-filters button").forEach(btn => {
+        btn.onclick = () => {
+            document.querySelectorAll(".card-filters button")
+                .forEach(b => b.classList.remove("active"));
 
-        currentMarketplaceFilter =
-            btn.textContent === "All" ? "ALL" : btn.textContent;
+            btn.classList.add("active");
 
-        renderMarketplace(currentMarketplaceFilter);
-    };
+            currentMarketplaceFilter =
+                btn.textContent === "All" ? "ALL" : btn.textContent;
+
+            renderMarketplace(currentMarketplaceFilter);
+        };
+    });
 });
 
         window.addEventListener("load", () => {
@@ -4811,6 +4815,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
