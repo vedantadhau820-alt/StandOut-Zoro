@@ -1198,6 +1198,15 @@
 * {
   -webkit-tap-highlight-color: transparent;
 }
+        .grade-splus .grade-badge {
+    background: linear-gradient(135deg, gold, orange);
+    color: #000;
+}
+
+.grade-x .grade-badge {
+    background: #ec4899;
+    color: #000;
+}
     </style>
 </head>
 
@@ -1306,15 +1315,14 @@
         </p>
 
         <!-- Filter Tabs -->
-        <div class="card-filters">
-            <button class="active">All</button>
-            <button>S</button>
-            <button>A</button>
-            <button>B</button>
-            <button>C</button>
-            <button>D</button>
-            <button>E</button>
-        </div>
+        <button class="active">All</button>
+<button>S+</button>
+<button>S</button>
+<button>A</button>
+<button>B</button>
+<button>C</button>
+<button>D</button>
+<button>X</button>
 
         <!-- Card Grid -->
         <div class="card-grid" id="cardShop"></div>
@@ -3006,6 +3014,12 @@ image: "Images/S+14.jpg" },
 
         let ownedCards = JSON.parse(localStorage.getItem("ownedCards")) || {};
 
+function normalizeGrade(grade) {
+    if (grade === "S+") return "splus";
+    if (grade === "X") return "x";
+    return grade.toLowerCase();
+}
+        
         function renderMarketplace(filterGrade = "ALL") {
             const shop = document.getElementById("cardShop");
             if (!shop) return;
@@ -3045,10 +3059,10 @@ image: "Images/S+14.jpg" },
 
                 const div = document.createElement("div");
                 div.className = `
-      flex-card 
-      grade-${card.grade.toLowerCase()} 
-      ${isOwned ? "owned" : "locked"}
-    `;
+  flex-card
+  grade-${normalizeGrade(card.grade)}
+  ${isOwned ? "owned" : "locked"}
+`;
 
                 div.innerHTML = `
       <img src="${card.image}" alt="${card.title}">
@@ -3149,8 +3163,16 @@ image: "Images/S+14.jpg" },
         }
 
         function gradeRank(grade) {
-            return { S: 6, A: 5, B: 4, C: 3, D: 2, E: 1 }[grade] || 0;
-        }
+    return {
+        "S+": 8,
+        "S": 7,
+        "A": 6,
+        "B": 5,
+        "C": 4,
+        "D": 3,
+        "X": 1   // special / lowest
+    }[grade] ?? 0;
+}
 
         document.querySelectorAll(".card-filters button").forEach(btn => {
             btn.onclick = () => {
@@ -4791,6 +4813,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
