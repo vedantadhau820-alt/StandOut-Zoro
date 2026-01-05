@@ -3073,6 +3073,31 @@ function gradeToClass(grade) {
   });
 }
 
+        function renderMarketplace(cards) {
+  const shop = document.getElementById("cardShop");
+  shop.innerHTML = "";
+
+  cards.forEach(card => {
+    const gradeClass = gradeToClass(card.grade);
+
+    const div = document.createElement("div");
+    div.className = `flex-card grade-${gradeClass}`;
+
+    div.innerHTML = `
+      <img src="${card.image}" alt="${card.title}">
+      <span class="grade-badge">${card.grade}</span>
+
+      <div class="card-body">
+        <h3>${card.title}</h3>
+        <p class="card-quote">${card.quote || ""}</p>
+        <button class="buy-btn">${card.cost} pts</button>
+      </div>
+    `;
+
+    shop.appendChild(div);
+  });
+}
+
         function buyCard(cardId) {
             const card = cardCatalog.find(c => c.id === cardId);
             if (!card) return;
@@ -4788,6 +4813,7 @@ renderMarketplace(cardCatalog);
 </body>
 
 </html>
+
 
 
 
