@@ -3152,7 +3152,7 @@ image: "Images/S+14.jpg" },
         }
 
         function gradeRank(grade) {
-            return { S++: 6, S: 5, X: 4, A: 4, B: 3, C: 2, D: 1,}[grade] || 0;
+            return { S+: 6, S: 5, X: 4, A: 4, B: 3, C: 2, D: 1,}[grade] || 0;
         }
 
         document.querySelectorAll(".card-filters button").forEach(btn => {
@@ -4794,6 +4794,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
