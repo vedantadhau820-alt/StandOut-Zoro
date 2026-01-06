@@ -1317,6 +1317,7 @@
         <!-- Filter Tabs -->
         <div class="card-filters">
             <button class="active">All</button>
+            <button>X</button>
             <button>SS</button>
             <button>S</button>
             <button>A</button>
@@ -3162,7 +3163,7 @@ image: "Images/S+14.jpg" },
             });
         }
 
-        const GRADE_ORDER = ["E", "D", "C", "B", "A", "S", "SS", "SSS"];
+        const GRADE_ORDER = ["E", "D", "C", "B", "A", "X", "S", "SS"];
 
 function gradeRank(grade) {
   return GRADE_ORDER.indexOf(grade) + 1;
@@ -4807,6 +4808,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
