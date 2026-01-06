@@ -1,4 +1,4 @@
-const CACHE_NAME = "standout-cache-v5";
+const CACHE_NAME = "standout-cache-v6";
 
 const urlsToCache = [
   "/",
@@ -221,4 +221,5 @@ self.addEventListener("fetch", event => {
     caches.match(event.request).then(res => res || fetch(event.request))
   );
 });
+
 
