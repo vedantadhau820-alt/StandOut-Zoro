@@ -1207,6 +1207,76 @@
   background: linear-gradient(45deg, #7c3aed, #ec4899);
   color: #fff;
 }
+        /* =========================
+   TOGGLE BUTTON (HARDCORE)
+========================= */
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0px 20px 0px;
+}
+
+.toggle-label {
+  font-size: 14px;
+  color: #f87171;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* Switch container */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+/* Hide default checkbox */
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider background */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #374151;
+  border-radius: 999px;
+  transition: background-color 0.25s ease;
+}
+
+/* Circle */
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+}
+
+/* ON state */
+.toggle input:checked + .slider {
+  background-color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+/* Hover */
+.slider:hover {
+  background-color: #4b5563;
+}
     </style>
 </head>
 
@@ -1372,8 +1442,8 @@
     <section id="account" class="hidden">
         <h2>Documentation</h2>
 
-        <h5><a href="documentation.html">Stand Out Version 2.0</a></h5>
-        <h5>Date of Documentation: 3 Jan 2026</h5>
+        <h5><a href="documentation.html">Stand Out Version 2.1</a></h5>
+        <h5>Date of Documentation: 9 Jan 2026</h5>
 
         <h3>Achievements</h3>
         <div id="achievementsViewer" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
@@ -4006,6 +4076,14 @@ function gradeRank(grade) {
   <label>Deadline</label>
   <input id="missionDeadline" type="datetime-local">
 
+  <div class="toggle-row">
+  <label class="toggle">
+    <input type="checkbox" id="hardcoreToggle">
+    <span class="slider"></span>
+  </label>
+  <span class="toggle-label">Hardcore Mode</span>
+</div>
+
   <button onclick="addMission()">Add</button>
   <button onclick="closeModal()">Cancel</button>
 `;
@@ -4140,37 +4218,38 @@ document.getElementById("countdownDateTime").min = now;
         const missionMilestones = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
 
         function addMission() {
-            const text = document.getElementById("missionInput").value;
-            const deadline = document.getElementById("missionDeadline").value;
-            const linkedSkill = document.getElementById("linkedSkill").value;
+    const text = document.getElementById("missionInput").value;
+    const deadline = document.getElementById("missionDeadline").value;
+    const linkedSkill = document.getElementById("linkedSkill").value;
+    const isHardcore = document.getElementById("hardcoreToggle").checked;
 
-            if (isPastDateTime(deadline)) {
-                customAlert("Deadline cannot be in the past.");
-                return;
-            }
+    if (isPastDateTime(deadline)) {
+        customAlert("Deadline cannot be in the past.");
+        return;
+    }
 
+    if (!text) {
+        closeModal();
+        return;
+    }
 
-            if (!text) {
-                closeModal();
-                return;
-            }
+    const li = document.createElement("li");
+    li.dataset.deadline = deadline || "";
+    li.dataset.skill = linkedSkill || "";
+    li.dataset.completed = "false";
+    li.dataset.hardcore = isHardcore ? "true" : "false";
 
-            const li = document.createElement("li");
-            li.dataset.deadline = deadline || "";
-            li.dataset.skill = linkedSkill || "";
-            li.dataset.completed = "false";
+    let deadlineText = "";
+    if (deadline) {
+        const d = new Date(deadline);
+        deadlineText = `${d.toLocaleDateString([], { day: "numeric", month: "short" })}, 
+                        ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    }
 
-            // Format deadline
-            let deadlineText = "";
-            if (deadline) {
-                const d = new Date(deadline);
-                const date = d.toLocaleDateString([], { day: "numeric", month: "short" });
-                const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-                deadlineText = `${date}, ${time}`;
-            }
-
-            li.innerHTML = `
-        <span class="mission-text">${text}</span>
+    li.innerHTML = `
+        <span class="mission-text">
+          ${text} ${isHardcore ? "🔥" : ""}
+        </span>
 
         <div class="deadline-row">
             <span class="deadlineDisplay">${deadlineText}</span>
@@ -4179,17 +4258,15 @@ document.getElementById("countdownDateTime").min = now;
         </div>
     `;
 
-            // Click to edit (except complete button)
-            li.addEventListener("click", (e) => {
-                if (e.target.classList.contains("complete-btn")) return;
-                openModal("edit-mission", li);
-            });
+    li.addEventListener("click", (e) => {
+        if (e.target.classList.contains("complete-btn")) return;
+        openModal("edit-mission", li);
+    });
 
-            document.getElementById("mission-list").appendChild(li);
-            saveData();
-            closeModal();
+    document.getElementById("mission-list").appendChild(li);
+    saveData();
+    closeModal();
         }
-
 
 
 
@@ -4233,58 +4310,85 @@ document.getElementById("countdownDateTime").min = now;
             closeModal();
         }
 
-        function checkMissedDeadlines() {
-            const missions = document.querySelectorAll("#mission-list li");
-            const now = Date.now();
+        
+function checkMissedDeadlines() {
+    const missions = document.querySelectorAll("#mission-list li");
+    const now = Date.now();
 
-            missions.forEach(li => {
-                const deadline = li.dataset.deadline;
-                if (!deadline) return;
+    missions.forEach(li => {
+        const deadline = li.dataset.deadline;
+        if (!deadline) return;
 
-                if (li.dataset.completed === "true") return;
+        if (li.dataset.completed === "true") return;
 
-                const deadlineTime = new Date(deadline).getTime();
-                const timeLeft = deadlineTime - now;
+        const deadlineTime = new Date(deadline).getTime();
+        const timeLeft = deadlineTime - now;
 
-                const overdueSpan = li.querySelector(".overdueMark");
-                if (!overdueSpan) return;
+        const overdueSpan = li.querySelector(".overdueMark");
+        if (!overdueSpan) return;
 
-                // 🔔 Due soon (once)
-                if (timeLeft > 0 && timeLeft <= 2 * 60 * 60 * 1000 && !li.dataset.warned) {
-                    li.dataset.warned = "true";
-                    pushNotification(
-                        "Mission Deadline",
-                        `"${li.querySelector('.mission-text').textContent}" is due soon (within 2 hours!)`
-                    );
-                }
-
-                if (timeLeft <= 0) {
-    overdueSpan.innerHTML = `<span class="overdue-badge">Overdue</span>`;
-
-    // 🔔 Notify once
-    if (!li.dataset.overdueNotified) {
-        li.dataset.overdueNotified = "true";
-        pushNotification(
-            "⚠ Mission Overdue",
-            `"${li.querySelector('.mission-text').textContent}" is overdue!`
-        );
-    }
-
-    // ❌ DEDUCT 1 POINT (ONCE)
-    if (!li.dataset.deducted) {
-        completedMissions = Math.max(0, completedMissions - 1);
-        li.dataset.deducted = "true";
-
-        document.getElementById("missionCounter").textContent = completedMissions;
-        localStorage.setItem("completedMissions", completedMissions);
-
-        saveData();
-    }
-}
-
-            });
+        // 🔔 Due soon warning (once)
+        if (
+            timeLeft > 0 &&
+            timeLeft <= 2 * 60 * 60 * 1000 &&
+            !li.dataset.warned
+        ) {
+            li.dataset.warned = "true";
+            pushNotification(
+                "Mission Deadline",
+                `"${li.querySelector('.mission-text').textContent}" is due soon (within 2 hours!)`
+            );
         }
 
+        // ⏰ DEADLINE PASSED
+        if (timeLeft <= 0) {
+            overdueSpan.innerHTML = `<span class="overdue-badge">Overdue</span>`;
+
+            // 🔔 Notify overdue (once)
+            if (!li.dataset.overdueNotified) {
+                li.dataset.overdueNotified = "true";
+                pushNotification(
+                    "⚠ Mission Overdue",
+                    `"${li.querySelector('.mission-text').textContent}" is overdue!`
+                );
+            }
+
+            // 🔥 HARDCORE MODE — RESET ALL POINTS (ONCE)
+            if (
+                li.dataset.hardcore === "true" &&
+                !li.dataset.hardcorePunished
+            ) {
+                li.dataset.hardcorePunished = "true";
+
+                completedMissions = 0;
+                localStorage.setItem("completedMissions", 0);
+                document.getElementById("missionCounter").textContent = "0";
+
+                renderMarketplace();
+                renderMyCards();
+
+                showSmartNotification(
+                    "🔥 Hardcore Failed",
+                    "Improvement Points reset to ZERO."
+                );
+
+                saveData();
+                return; // ⛔ stop further penalties
+            }
+
+            // ❌ NORMAL MODE — DEDUCT 1 POINT (ONCE)
+            if (!li.dataset.deducted) {
+                completedMissions = Math.max(0, completedMissions - 1);
+                li.dataset.deducted = "true";
+
+                document.getElementById("missionCounter").textContent = completedMissions;
+                localStorage.setItem("completedMissions", completedMissions);
+
+                saveData();
+            }
+        }
+    });
+}
 
 
         function deleteMission() {
@@ -4755,76 +4859,88 @@ document.getElementById("countdownDateTime").min = now;
         }
 
         function loadData() {
-            document.getElementById("mission-list").innerHTML =
-                localStorage.getItem("missions") || "";
-            document.getElementById("skill-list").innerHTML =
-                localStorage.getItem("skills") || "";
-            document.getElementById("goal-list").innerHTML =
-                localStorage.getItem("goals") || ""
-            // --- FIX MISSIONS AFTER LOADING ---
-            document.querySelectorAll("#mission-list li").forEach(li => {
+    document.getElementById("mission-list").innerHTML =
+        localStorage.getItem("missions") || "";
+    document.getElementById("skill-list").innerHTML =
+        localStorage.getItem("skills") || "";
+    document.getElementById("goal-list").innerHTML =
+        localStorage.getItem("goals") || "";
 
-                // 1. Ensure overdueMark exists
-                if (!li.querySelector(".overdueMark")) {
-                    const span = document.createElement("span");
-                    span.className = "overdueMark";
-                    li.appendChild(span);
-                }
+    // --- FIX MISSIONS AFTER LOADING ---
+    document.querySelectorAll("#mission-list li").forEach(li => {
 
-                // 2. Ensure deadlineDisplay exists
-                if (!li.querySelector(".deadlineDisplay")) {
-                    const dspan = document.createElement("span");
-                    dspan.className = "deadlineDisplay";
-                    li.appendChild(dspan);
-                }
-
-                // 3. Restore dataset.deadline
-                const savedDeadline = li.getAttribute("data-deadline");
-                if (savedDeadline) li.dataset.deadline = savedDeadline;
-
-                // 4. Restore deducted flag
-                const savedDeducted = li.getAttribute("data-deducted");
-                if (savedDeducted === "true") {
-                    li.dataset.deducted = "true";
-                }
-
-                // 5. Reattach edit modal click
-                li.addEventListener("click", (e) => {
-                    if (e.target.classList.contains("complete-btn")) return;
-                    openModal("edit-mission", li);
-                });
-
-
-                const savedOverdue = li.getAttribute("data-overdue-notified");
-                if (savedOverdue === "true") {
-                    li.dataset.overdueNotified = "true";
-                }
-
-            });
-
-            document.querySelectorAll("#skill-list .skill").forEach(div => {
-                div.addEventListener("click", () => openModal("edit-skill", div));
-                div.classList.add("show");
-            });
-
-            document.querySelectorAll("#goal-list .goal").forEach(div => {
-                div.classList.add("show");
-                const removeBtn = div.querySelector(".remove-btn");
-                if (removeBtn) {
-                    removeBtn.onclick = () => removeGoal(removeBtn);
-                }
-            });
-
-            document.querySelectorAll("#skill-list .skill").forEach(skill => {
-                const xp = parseInt(skill.getAttribute("data-xp") || "0");
-
-                skill.dataset.xp = xp;
-                skill.querySelector(".xp-count").textContent = xp;
-                skill.querySelector(".progress-bar").style.width = xp + "%";
-            });
-
+        // 1. Ensure overdueMark exists
+        if (!li.querySelector(".overdueMark")) {
+            const span = document.createElement("span");
+            span.className = "overdueMark";
+            li.appendChild(span);
         }
 
+        // 2. Ensure deadlineDisplay exists
+        if (!li.querySelector(".deadlineDisplay")) {
+            const dspan = document.createElement("span");
+            dspan.className = "deadlineDisplay";
+            li.appendChild(dspan);
+        }
+
+        // 3. Restore deadline
+        const savedDeadline = li.getAttribute("data-deadline");
+        if (savedDeadline) li.dataset.deadline = savedDeadline;
+
+        // 4. Restore deducted flag
+        if (li.getAttribute("data-deducted") === "true") {
+            li.dataset.deducted = "true";
+        }
+
+        // 5. Restore overdue notification flag
+        if (li.getAttribute("data-overdue-notified") === "true") {
+            li.dataset.overdueNotified = "true";
+        }
+
+        // ===============================
+        // 🔥 HARDCORE MODE RESTORE (NEW)
+        // ===============================
+        if (li.getAttribute("data-hardcore") === "true") {
+            li.dataset.hardcore = "true";
+        }
+
+        if (li.getAttribute("data-hardcore-punished") === "true") {
+            li.dataset.hardcorePunished = "true";
+        }
+        // ===============================
+
+        // 6. Reattach edit modal click
+        li.addEventListener("click", (e) => {
+            if (e.target.classList.contains("complete-btn")) return;
+            openModal("edit-mission", li);
+        });
+    });
+
+    // ---- SKILLS ----
+    document.querySelectorAll("#skill-list .skill").forEach(div => {
+        div.addEventListener("click", () => openModal("edit-skill", div));
+        div.classList.add("show");
+    });
+
+    // ---- GOALS ----
+    document.querySelectorAll("#goal-list .goal").forEach(div => {
+        div.classList.add("show");
+        const removeBtn = div.querySelector(".remove-btn");
+        if (removeBtn) {
+            removeBtn.onclick = () => removeGoal(removeBtn);
+        }
+    });
+
+    // ---- SKILL XP ----
+    document.querySelectorAll("#skill-list .skill").forEach(skill => {
+        const xp = parseInt(skill.getAttribute("data-xp") || "0");
+        skill.dataset.xp = xp;
+        skill.querySelector(".xp-count").textContent = xp;
+        skill.querySelector(".progress-bar").style.width = xp + "%";
+    });
+}
+
+        
         function resetData() {
             // ===============================
             // 1. RESET RUNTIME MEMORY (🔥 IMPORTANT)
@@ -4959,6 +5075,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
