@@ -1628,6 +1628,8 @@ function loadProgressFromFile() {
         try {
             const text = reader.result.replace(/^\uFEFF/, "").trim();
             const data = JSON.parse(text);
+            console.log("RAW FILE TEXT:", reader.result);
+            console.log("PARSED DATA:", data);
 
             restoreAppSnapshot(data);
             customAlert("Progress restored successfully!");
@@ -4917,6 +4919,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
