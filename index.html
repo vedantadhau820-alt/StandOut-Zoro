@@ -1578,19 +1578,60 @@ function getAppSnapshot() {
         dailyImprovementCount,
         lastImprovementDate,
 
-        missions: localStorage.getItem("missions"),
-        skills: localStorage.getItem("skills"),
-        goals: localStorage.getItem("goals"),
+        missions: localStorage.getItem("missions") || "",
+        skills: localStorage.getItem("skills") || "",
+        goals: localStorage.getItem("goals") || "",
 
-        countdowns,
-        ownedCards,
+        countdowns: JSON.parse(JSON.stringify(countdowns || [])),
+        ownedCards: JSON.parse(JSON.stringify(ownedCards || {})),
 
-        achievements: achievementsData,
-        notifications: appNotifications,
-        lastNotifCount: localStorage.getItem("lastNotifCount")
+        achievements: JSON.parse(JSON.stringify(achievementsData || [])),
+        notifications: JSON.parse(JSON.stringify(appNotifications || [])),
+        lastNotifCount: Number(localStorage.getItem("lastNotifCount")) || 0
     };
 }
 
+        function restoreAppSnapshot(data) {
+    resetData(true); // silent reset
+
+    completedMissions = Number(data.completedMissions) || 0;
+    dailyImprovementCount = Number(data.dailyImprovementCount) || 0;
+    lastImprovementDate = data.lastImprovementDate || new Date().toDateString();
+
+    localStorage.setItem("missions", data.missions || "");
+    localStorage.setItem("skills", data.skills || "");
+    localStorage.setItem("goals", data.goals || "");
+
+    countdowns = Array.isArray(data.countdowns) ? data.countdowns : [];
+    saveCountdowns();
+
+    ownedCards = typeof data.ownedCards === "object" ? data.ownedCards : {};
+    localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
+
+    achievementsData = Array.isArray(data.achievements)
+        ? data.achievements
+        : achievements.map(a => ({ ...a, unlocked: false }));
+
+    localStorage.setItem("achievements", JSON.stringify(achievementsData));
+
+    appNotifications = Array.isArray(data.notifications) ? data.notifications : [];
+    localStorage.setItem("appNotifications", JSON.stringify(appNotifications));
+    localStorage.setItem("lastNotifCount", data.lastNotifCount || 0);
+
+    localStorage.setItem("completedMissions", completedMissions);
+    localStorage.setItem("dailyImprovementCount", dailyImprovementCount);
+    localStorage.setItem("lastImprovementDate", lastImprovementDate);
+
+    loadData();
+    renderAchievements();
+    renderCountdowns();
+    renderMarketplace();
+    renderMyCards();
+    updateNotificationBadge();
+
+    document.getElementById("missionCounter").textContent = completedMissions;
+        }
+        
 function saveProgressToFile() {
     alert("SAVE CLICKED");
 
@@ -4919,6 +4960,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
