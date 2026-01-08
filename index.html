@@ -1559,17 +1559,19 @@
         let lastImprovementDate = localStorage.getItem("lastImprovementDate") || new Date().toDateString();
 
         function resetDailyImprovementIfNeeded() {
-            const today = new Date().toDateString();
+    const today = new Date().toDateString();
 
-            if (lastImprovementDate !== today) {
-                dailyImprovementCount = 0;
-                lastImprovementDate = today;
+    if (lastImprovementDate !== today) {
+        localStorage.setItem("dailyImprovementCount", "0");
+        localStorage.setItem("lastImprovementDate", today);
+    }
 
-                localStorage.setItem("dailyImprovementCount", "0");
-                localStorage.setItem("lastImprovementDate", today);
-            }
+    // 🔐 Always sync from storage after reset
+    dailyImprovementCount =
+        parseInt(localStorage.getItem("dailyImprovementCount")) || 0;
+    lastImprovementDate =
+        localStorage.getItem("lastImprovementDate") || today;
         }
-
 
 
         let isMarketplaceOpen = false;
@@ -4796,10 +4798,11 @@ document.getElementById("countdownCounter").textContent = "0";
            10. INITIALIZATION
         ========================================================= */
         window.addEventListener("load", () => {
+            resetDailyImprovementIfNeeded()
             renderAchievements();
             renderCountdowns();
             loadData();
-            resetDailyImprovementIfNeeded()
+            
 
             const activePage = document.querySelector("section.active")
                 ? document.querySelector("section.active").id
@@ -4823,6 +4826,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
