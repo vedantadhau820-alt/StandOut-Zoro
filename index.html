@@ -1569,35 +1569,7 @@
 
     <script>
 
-        window.saveProgressToFile = saveProgressToFile;
-window.loadProgressFromFile = loadProgressFromFile;
-
-        function loadProgressFromFile() {
-    customConfirm(
-        "Restoring will overwrite your current progress. Continue?",
-        () => document.getElementById("importProgressFile").click()
-    );
-}
-
-document.getElementById("importProgressFile").addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-        try {
-            const data = JSON.parse(reader.result);
-            restoreAppSnapshot(data);
-            customAlert("Progress restored successfully!");
-        } catch {
-            customAlert("Invalid backup file.");
-        }
-    };
-
-    reader.readAsText(file);
-    
-    function getAppSnapshot() {
+function getAppSnapshot() {
     return {
         version: "2.1.0",
         exportedAt: new Date().toISOString(),
@@ -1621,8 +1593,8 @@ document.getElementById("importProgressFile").addEventListener("change", functio
 
 function saveProgressToFile() {
     alert("SAVE CLICKED");
-    const snapshot = getAppSnapshot();
 
+    const snapshot = getAppSnapshot();
     const blob = new Blob(
         [JSON.stringify(snapshot, null, 2)],
         { type: "application/json" }
@@ -1631,50 +1603,43 @@ function saveProgressToFile() {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = `standout-backup-${Date.now()}.json`;
+
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
 
     URL.revokeObjectURL(a.href);
 }
+
+function loadProgressFromFile() {
+    customConfirm(
+        "Restoring will overwrite your current progress. Continue?",
+        () => document.getElementById("importProgressFile").click()
+    );
+}
+
+        document.getElementById("importProgressFile").addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        try {
+            const data = JSON.parse(reader.result);
+            restoreAppSnapshot(data);
+            customAlert("Progress restored successfully!");
+        } catch {
+            customAlert("Invalid backup file.");
+        }
+    };
+
+    reader.readAsText(file);
     e.target.value = "";
 });
-        
-function restoreAppSnapshot(data) {
-    resetData(); // you already wrote this perfectly 👌
 
-    completedMissions = data.completedMissions || 0;
-    dailyImprovementCount = data.dailyImprovementCount || 0;
-    lastImprovementDate = data.lastImprovementDate || new Date().toDateString();
-
-    localStorage.setItem("missions", data.missions || "");
-    localStorage.setItem("skills", data.skills || "");
-    localStorage.setItem("goals", data.goals || "");
-
-    countdowns = data.countdowns || [];
-    saveCountdowns();
-
-    ownedCards = data.ownedCards || {};
-    localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
-
-    achievementsData = data.achievements || achievements;
-    localStorage.setItem("achievements", JSON.stringify(achievementsData));
-
-    appNotifications = data.notifications || [];
-    localStorage.setItem("appNotifications", JSON.stringify(appNotifications));
-    localStorage.setItem("lastNotifCount", data.lastNotifCount || 0);
-
-    localStorage.setItem("completedMissions", completedMissions);
-    localStorage.setItem("dailyImprovementCount", dailyImprovementCount);
-    localStorage.setItem("lastImprovementDate", lastImprovementDate);
-
-    loadData();
-    renderAchievements();
-    renderCountdowns();
-    renderMarketplace();
-    renderMyCards();
-    updateNotificationBadge();
-
-    document.getElementById("missionCounter").textContent = completedMissions;
-}
+        window.saveProgressToFile = saveProgressToFile;
+window.loadProgressFromFile = loadProgressFromFile;
         
         const DAILY_IMPROVEMENT_LIMIT = 10;
 
@@ -4949,6 +4914,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
