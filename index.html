@@ -1626,11 +1626,14 @@ function loadProgressFromFile() {
 
     reader.onload = () => {
         try {
-            const data = JSON.parse(reader.result);
+            const text = reader.result.replace(/^\uFEFF/, "").trim();
+            const data = JSON.parse(text);
+
             restoreAppSnapshot(data);
             customAlert("Progress restored successfully!");
-        } catch {
-            customAlert("Invalid backup file.");
+        } catch (err) {
+            console.error("Restore failed:", err);
+            customAlert("Invalid or corrupted backup file.");
         }
     };
 
@@ -4914,6 +4917,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
