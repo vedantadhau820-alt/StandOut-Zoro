@@ -1569,60 +1569,16 @@
 
     <script>
 
-        function getAppSnapshot() {
-    return {
-        version: "2.1.0",
-        exportedAt: new Date().toISOString(),
-
-        // Core progress
-        completedMissions: completedMissions,
-        dailyImprovementCount,
-        lastImprovementDate,
-
-        // HTML-based data
-        missions: localStorage.getItem("missions"),
-        skills: localStorage.getItem("skills"),
-        goals: localStorage.getItem("goals"),
-
-        // Countdown + marketplace
-        countdowns,
-        ownedCards,
-
-        // Systems
-        achievements: achievementsData,
-        notifications: appNotifications,
-        lastNotifCount: localStorage.getItem("lastNotifCount")
-    };
-        }
-
-
-function saveProgressToFile() {
-    const snapshot = getAppSnapshot();
-
-    const blob = new Blob(
-        [JSON.stringify(snapshot, null, 2)],
-        { type: "application/json" }
-    );
-
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `standout-progress-${Date.now()}.json`;
-    document.body.appendChild(a);
-    a.click();
-
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
-    customAlert("Progress saved successfully!");
-}
+        
 
         function loadProgressFromFile() {
-    document.getElementById("importProgressFile").click();
+    customConfirm(
+        "Restoring will overwrite your current progress. Continue?",
+        () => document.getElementById("importProgressFile").click()
+    );
 }
 
-        document.getElementById("importProgressFile").addEventListener("change", function (e) {
+document.getElementById("importProgressFile").addEventListener("change", function (e) {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -1633,52 +1589,79 @@ function saveProgressToFile() {
             const data = JSON.parse(reader.result);
             restoreAppSnapshot(data);
             customAlert("Progress restored successfully!");
-        } catch (err) {
-            customAlert("Invalid or corrupted save file.");
+        } catch {
+            customAlert("Invalid backup file.");
         }
     };
 
-    reader.readAsText(file);
+    reader.readAsText(file);function getAppSnapshot() {
+    return {
+        version: "2.1.0",
+        exportedAt: new Date().toISOString(),
+
+        completedMissions,
+        dailyImprovementCount,
+        lastImprovementDate,
+
+        missions: localStorage.getItem("missions"),
+        skills: localStorage.getItem("skills"),
+        goals: localStorage.getItem("goals"),
+
+        countdowns,
+        ownedCards,
+
+        achievements: achievementsData,
+        notifications: appNotifications,
+        lastNotifCount: localStorage.getItem("lastNotifCount")
+    };
+}
+
+function saveProgressToFile() {
+    const snapshot = getAppSnapshot();
+
+    const blob = new Blob(
+        [JSON.stringify(snapshot, null, 2)],
+        { type: "application/json" }
+    );
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `standout-backup-${Date.now()}.json`;
+    a.click();
+
+    URL.revokeObjectURL(a.href);
+}
     e.target.value = "";
 });
+        
+function restoreAppSnapshot(data) {
+    resetData(); // you already wrote this perfectly 👌
 
-        function restoreAppSnapshot(data) {
-    // Clear existing data safely
-    resetData();
-
-    // Restore core state
     completedMissions = data.completedMissions || 0;
     dailyImprovementCount = data.dailyImprovementCount || 0;
     lastImprovementDate = data.lastImprovementDate || new Date().toDateString();
 
-    // Restore storage-backed HTML
-    if (data.missions) localStorage.setItem("missions", data.missions);
-    if (data.skills) localStorage.setItem("skills", data.skills);
-    if (data.goals) localStorage.setItem("goals", data.goals);
+    localStorage.setItem("missions", data.missions || "");
+    localStorage.setItem("skills", data.skills || "");
+    localStorage.setItem("goals", data.goals || "");
 
-    // Restore countdowns
     countdowns = data.countdowns || [];
     saveCountdowns();
 
-    // Restore marketplace
     ownedCards = data.ownedCards || {};
     localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
 
-    // Restore achievements
     achievementsData = data.achievements || achievements;
     localStorage.setItem("achievements", JSON.stringify(achievementsData));
 
-    // Restore notifications
     appNotifications = data.notifications || [];
     localStorage.setItem("appNotifications", JSON.stringify(appNotifications));
     localStorage.setItem("lastNotifCount", data.lastNotifCount || 0);
 
-    // Restore counters
     localStorage.setItem("completedMissions", completedMissions);
     localStorage.setItem("dailyImprovementCount", dailyImprovementCount);
     localStorage.setItem("lastImprovementDate", lastImprovementDate);
 
-    // Re-render everything
     loadData();
     renderAchievements();
     renderCountdowns();
@@ -4962,6 +4945,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
