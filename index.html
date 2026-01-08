@@ -1594,7 +1594,9 @@ document.getElementById("importProgressFile").addEventListener("change", functio
         }
     };
 
-    reader.readAsText(file);function getAppSnapshot() {
+    reader.readAsText(file);
+    
+    function getAppSnapshot() {
     return {
         version: "2.1.0",
         exportedAt: new Date().toISOString(),
@@ -1617,6 +1619,7 @@ document.getElementById("importProgressFile").addEventListener("change", functio
 }
 
 function saveProgressToFile() {
+    alert("SAVE CLICKED");
     const snapshot = getAppSnapshot();
 
     const blob = new Blob(
@@ -4945,6 +4948,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
