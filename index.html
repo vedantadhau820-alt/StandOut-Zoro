@@ -1246,6 +1246,7 @@
             </div>
 
             <img src="icon.jpeg" alt="Profile" class="nav-img">
+            <input type="file" id="importProgressFile" accept=".json" hidden>
         </div>
     </nav>
 
@@ -1553,6 +1554,127 @@
     </script>
 
     <script>
+
+        function getAppSnapshot() {
+    return {
+        version: "2.1.0",
+        exportedAt: new Date().toISOString(),
+
+        // Core progress
+        completedMissions: completedMissions,
+        dailyImprovementCount,
+        lastImprovementDate,
+
+        // HTML-based data
+        missions: localStorage.getItem("missions"),
+        skills: localStorage.getItem("skills"),
+        goals: localStorage.getItem("goals"),
+
+        // Countdown + marketplace
+        countdowns,
+        ownedCards,
+
+        // Systems
+        achievements: achievementsData,
+        notifications: appNotifications,
+        lastNotifCount: localStorage.getItem("lastNotifCount")
+    };
+        }
+
+
+function saveProgressToFile() {
+    const snapshot = getAppSnapshot();
+
+    const blob = new Blob(
+        [JSON.stringify(snapshot, null, 2)],
+        { type: "application/json" }
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `standout-progress-${Date.now()}.json`;
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    customAlert("Progress saved successfully!");
+}
+
+        function loadProgressFromFile() {
+    document.getElementById("importProgressFile").click();
+}
+
+        document.getElementById("importProgressFile").addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        try {
+            const data = JSON.parse(reader.result);
+            restoreAppSnapshot(data);
+            customAlert("Progress restored successfully!");
+        } catch (err) {
+            customAlert("Invalid or corrupted save file.");
+        }
+    };
+
+    reader.readAsText(file);
+    e.target.value = "";
+});
+
+        function restoreAppSnapshot(data) {
+    // Clear existing data safely
+    resetData();
+
+    // Restore core state
+    completedMissions = data.completedMissions || 0;
+    dailyImprovementCount = data.dailyImprovementCount || 0;
+    lastImprovementDate = data.lastImprovementDate || new Date().toDateString();
+
+    // Restore storage-backed HTML
+    if (data.missions) localStorage.setItem("missions", data.missions);
+    if (data.skills) localStorage.setItem("skills", data.skills);
+    if (data.goals) localStorage.setItem("goals", data.goals);
+
+    // Restore countdowns
+    countdowns = data.countdowns || [];
+    saveCountdowns();
+
+    // Restore marketplace
+    ownedCards = data.ownedCards || {};
+    localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
+
+    // Restore achievements
+    achievementsData = data.achievements || achievements;
+    localStorage.setItem("achievements", JSON.stringify(achievementsData));
+
+    // Restore notifications
+    appNotifications = data.notifications || [];
+    localStorage.setItem("appNotifications", JSON.stringify(appNotifications));
+    localStorage.setItem("lastNotifCount", data.lastNotifCount || 0);
+
+    // Restore counters
+    localStorage.setItem("completedMissions", completedMissions);
+    localStorage.setItem("dailyImprovementCount", dailyImprovementCount);
+    localStorage.setItem("lastImprovementDate", lastImprovementDate);
+
+    // Re-render everything
+    loadData();
+    renderAchievements();
+    renderCountdowns();
+    renderMarketplace();
+    renderMyCards();
+    updateNotificationBadge();
+
+    document.getElementById("missionCounter").textContent = completedMissions;
+}
+        
         const DAILY_IMPROVEMENT_LIMIT = 10;
 
         let dailyImprovementCount = parseInt(localStorage.getItem("dailyImprovementCount")) || 0;
@@ -4826,6 +4948,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
