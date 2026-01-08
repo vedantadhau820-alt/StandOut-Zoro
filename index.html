@@ -1378,6 +1378,20 @@
         <h3>Achievements</h3>
         <div id="achievementsViewer" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
 
+        <h3>Backup & Restore</h3>
+
+<button class="danger-btn" style="background:#2563EB; margin-bottom:10px;"
+    onclick="saveProgressToFile()">
+    💾 Save Progress
+</button>
+
+<button class="danger-btn" style="background:#16a34a;"
+    onclick="loadProgressFromFile()">
+    📂 Restore Progress
+</button>
+
+<input type="file" id="importProgressFile" accept=".json" hidden>
+
         <h3>Reset Data</h3>
         <button onclick="customConfirm('Are you sure you want to reset all data?', resetData)" class="danger-btn">
             Reset My Data
@@ -4948,6 +4962,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
