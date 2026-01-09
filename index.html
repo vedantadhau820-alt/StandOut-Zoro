@@ -4092,7 +4092,7 @@ function gradeRank(grade) {
 
             // ---- Edit Mission ----
             if (type === "edit-mission" && skillDiv) {
-    const oldText = skillDiv.querySelector(".mission-text").textContent;
+    const oldText = skillDiv.querySelector(".mission-text").textContent.replace("🔥", "").trim();
     const oldDeadline = skillDiv.dataset.deadline || "";
     const isHardcore = skillDiv.dataset.hardcore === "true";
 
@@ -4118,7 +4118,16 @@ function gradeRank(grade) {
       }
 
       <button onclick="updateMission()">Update</button>
-      <button onclick="deleteMission()">Delete</button>
+
+      ${
+        isHardcore
+          ? `<button disabled 
+              style="opacity:0.5;cursor:not-allowed;">
+              🔒 Hardcore — Cannot Delete
+            </button>`
+          : `<button onclick="deleteMission()">Delete</button>`
+      }
+
       <button onclick="closeModal()">Cancel</button>
     `;
 
@@ -4435,12 +4444,33 @@ function checkMissedDeadlines() {
 
 
         function deleteMission() {
-            const li = window.missionBeingEdited;
-            if (!li) return;
+    const li = window.missionBeingEdited;
+    if (!li) return;
 
-            li.remove();
-            saveData();
-            closeModal();
+    if (li.dataset.hardcore === "true") {
+        const deadline = li.dataset.deadline;
+        const now = Date.now();
+
+        if (deadline && new Date(deadline).getTime() <= now) {
+            customAlert("🔥 Hardcore missions cannot be deleted after deadline.");
+            return;
+        }
+
+        customConfirm(
+            "🔥 This is a Hardcore mission.\nDelete only if created by mistake?",
+            () => {
+                li.remove();
+                saveData();
+                closeModal();
+            }
+        );
+        return;
+    }
+
+    // Normal mission
+    li.remove();
+    saveData();
+    closeModal();
         }
 
 
@@ -5118,6 +5148,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
