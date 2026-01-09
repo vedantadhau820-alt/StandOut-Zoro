@@ -1643,6 +1643,29 @@
     </script>
 
     <script>
+        function simulateNextDay(days = 1) {
+    // 1️⃣ Get current logical date
+    const current = new Date(lastImprovementDate || new Date().toDateString());
+
+    // 2️⃣ Move forward by N days
+    current.setDate(current.getDate() + days);
+
+    // 3️⃣ Force new day state
+    lastImprovementDate = current.toISOString().slice(0, 10);
+    dailyImprovementCount = 0;
+
+    // 4️⃣ Persist
+    localStorage.setItem("lastImprovementDate", lastImprovementDate);
+    localStorage.setItem("dailyImprovementCount", "0");
+
+    // 5️⃣ Re-run daily systems
+    resetDailyImprovementIfNeeded();
+    checkMissedDeadlines();
+    updateGoalTimers();
+
+    // 6️⃣ Visual feedback
+    customAlert(`⏭ Simulated next day: ${lastImprovementDate}`);
+        }
 
 function getAppSnapshot() {
     return {
@@ -5164,6 +5187,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
