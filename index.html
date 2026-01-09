@@ -4312,56 +4312,53 @@ document.getElementById("countdownDateTime").min = now;
 
         setInterval(checkMissedDeadlines, 60000); // check every 1 minute
 
-        
-function updateMission() {
+        function updateMission() {
     const li = window.missionBeingEdited;
     if (!li) return;
 
-    const newText = document.getElementById("editMissionInput").value;
-
-    // Always allow text update
-    li.querySelector(".mission-text").textContent = newText;
-
+    const newText = document.getElementById("editMissionInput").value.trim();
+    const newDeadline = document.getElementById("editMissionDeadline").value;
     const isHardcore = li.dataset.hardcore === "true";
 
-    // 🔒 HARD BLOCK: Hardcore missions cannot change deadline
-    if (isHardcore) {
-        saveData();
+    if (!newText) {
         closeModal();
-        return; // ⛔ EXIT EARLY — NO DEADLINE CODE RUNS
+        return;
     }
 
-    // ---- Normal mission only below ----
-    const deadlineInput = document.getElementById("editMissionDeadline");
-    if (!deadlineInput) return;
-
-    const newDeadline = deadlineInput.value;
-
-    if (isPastDateTime(newDeadline)) {
+    // ❌ Hardcore → deadline cannot change
+    if (!isHardcore && newDeadline && isPastDateTime(newDeadline)) {
         customAlert("Deadline cannot be in the past.");
         return;
     }
 
-    if (newDeadline) {
-        const d = new Date(newDeadline);
-        const date = d.toLocaleDateString([], { day: "numeric", month: "short" });
-        const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    // ✅ Restore 🔥 if hardcore
+    li.querySelector(".mission-text").innerHTML =
+        newText + (isHardcore ? " 🔥" : "");
 
-        li.querySelector(".deadlineDisplay").textContent = `${date}, ${time}`;
-        li.dataset.deadline = newDeadline;
-    } else {
-        li.querySelector(".deadlineDisplay").textContent = "";
-        delete li.dataset.deadline;
+    // Update deadline ONLY if not hardcore
+    if (!isHardcore) {
+        if (newDeadline) {
+            const d = new Date(newDeadline);
+            const date = d.toLocaleDateString([], { day: "numeric", month: "short" });
+            const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+            li.querySelector(".deadlineDisplay").textContent = `${date}, ${time}`;
+            li.dataset.deadline = newDeadline;
+        } else {
+            li.querySelector(".deadlineDisplay").textContent = "";
+            li.dataset.deadline = "";
+        }
+
+        // Reset overdue state if deadline changed
+        li.querySelector(".overdueMark").innerHTML = "";
+        delete li.dataset.deducted;
     }
-
-    // Reset overdue state only for non-hardcore
-    delete li.dataset.deducted;
-    delete li.dataset.overdueNotified;
-    li.querySelector(".overdueMark").innerHTML = "";
 
     saveData();
     closeModal();
-}
+        }
+        
+
         
 function checkMissedDeadlines() {
     const missions = document.querySelectorAll("#mission-list li");
@@ -5148,6 +5145,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
