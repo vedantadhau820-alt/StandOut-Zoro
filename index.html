@@ -5350,6 +5350,7 @@ resetBtn.addEventListener("mouseleave", cancelResetHold);
 function startResetHold() {
     resetHoldTimer = setTimeout(() => {
         openCheatModal();
+        if (navigator.vibrate) navigator.vibrate(80);
     }, RESET_HOLD_DURATION);
 }
 
@@ -5376,7 +5377,7 @@ function closeCheatModal() {
         customAlert("Invalid cheat code.");
         return;
     }
-
+   if (navigator.vibrate) navigator.vibrate(80);
     // ✅ CHEAT SUCCESS
     completedMissions = 9999;
     dailyImprovementCount = 0;
@@ -5398,6 +5399,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
