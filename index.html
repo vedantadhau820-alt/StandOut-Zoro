@@ -4092,20 +4092,37 @@ function gradeRank(grade) {
 
             // ---- Edit Mission ----
             if (type === "edit-mission" && skillDiv) {
-                const oldText = skillDiv.querySelector(".mission-text").textContent;
-                const oldDeadline = skillDiv.dataset.deadline || "";
+    const oldText = skillDiv.querySelector(".mission-text").textContent;
+    const oldDeadline = skillDiv.dataset.deadline || "";
+    const isHardcore = skillDiv.dataset.hardcore === "true";
 
-                content.innerHTML = `
+    content.innerHTML = `
       <h3>Edit Mission</h3>
+
       <input id="editMissionInput" value="${oldText}">
+
       <label>Deadline</label>
-      <input id="editMissionDeadline" type="datetime-local" value="${oldDeadline}">
+      <input 
+        id="editMissionDeadline" 
+        type="datetime-local" 
+        value="${oldDeadline}"
+        ${isHardcore ? "disabled" : ""}
+      >
+
+      ${
+        isHardcore
+          ? `<p style="color:#ef4444;font-size:12px;margin-top:6px;">
+              🔥 Hardcore mission — deadline cannot be changed
+            </p>`
+          : ""
+      }
+
       <button onclick="updateMission()">Update</button>
       <button onclick="deleteMission()">Delete</button>
       <button onclick="closeModal()">Cancel</button>
     `;
 
-                window.missionBeingEdited = skillDiv;
+    window.missionBeingEdited = skillDiv;
             }
 
             // ---- Add Skill ----
@@ -4275,41 +4292,49 @@ document.getElementById("countdownDateTime").min = now;
 
         setInterval(checkMissedDeadlines, 60000); // check every 1 minute
 
-        function updateMission() {
-            const li = window.missionBeingEdited;
-            if (!li) return;
+        
+function updateMission() {
+    const li = window.missionBeingEdited;
+    if (!li) return;
 
-            const newText = document.getElementById("editMissionInput").value;
-            const newDeadline = document.getElementById("editMissionDeadline").value;
-            if (isPastDateTime(newDeadline)) {
-                customAlert("Deadline cannot be in the past.");
-                return;
-            }
+    const newText = document.getElementById("editMissionInput").value;
+    const deadlineInput = document.getElementById("editMissionDeadline");
 
-            // Update text
-            li.querySelector(".mission-text").textContent = newText;
+    // Update text always allowed
+    li.querySelector(".mission-text").textContent = newText;
 
-            // Update deadline
-            if (newDeadline) {
-                const d = new Date(newDeadline);
-                const dateString = d.toLocaleDateString([], { day: "numeric", month: "short" });
-                const timeString = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const isHardcore = li.dataset.hardcore === "true";
 
-                li.querySelector(".deadlineDisplay").textContent = `${dateString}, ${timeString}`;
-                li.dataset.deadline = newDeadline;
-            } else {
-                li.querySelector(".deadlineDisplay").textContent = "";
-                delete li.dataset.deadline;
-            }
+    // ⛔ Hardcore → block deadline changes
+    if (!isHardcore && deadlineInput) {
+        const newDeadline = deadlineInput.value;
 
-            // Reset overdue state on update
-            li.querySelector(".overdueMark").innerHTML = "";
-            delete li.dataset.deducted;
-
-            saveData();
-            closeModal();
+        if (isPastDateTime(newDeadline)) {
+            customAlert("Deadline cannot be in the past.");
+            return;
         }
 
+        if (newDeadline) {
+            const d = new Date(newDeadline);
+            const date = d.toLocaleDateString([], { day: "numeric", month: "short" });
+            const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+            li.querySelector(".deadlineDisplay").textContent = `${date}, ${time}`;
+            li.dataset.deadline = newDeadline;
+        } else {
+            li.querySelector(".deadlineDisplay").textContent = "";
+            delete li.dataset.deadline;
+        }
+
+        // Reset overdue state if changed
+        delete li.dataset.deducted;
+        delete li.dataset.overdueNotified;
+        li.querySelector(".overdueMark").innerHTML = "";
+    }
+
+    saveData();
+    closeModal();
+}
         
 function checkMissedDeadlines() {
     const missions = document.querySelectorAll("#mission-list li");
@@ -5075,6 +5100,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
