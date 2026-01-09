@@ -4235,18 +4235,26 @@ document.getElementById("countdownDateTime").min = now;
         const missionMilestones = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
 
         function addMission() {
-    const text = document.getElementById("missionInput").value;
+    const text = document.getElementById("missionInput").value.trim();
     const deadline = document.getElementById("missionDeadline").value;
     const linkedSkill = document.getElementById("linkedSkill").value;
     const isHardcore = document.getElementById("hardcoreToggle").checked;
 
-    if (isPastDateTime(deadline)) {
-        customAlert("Deadline cannot be in the past.");
+    // ❌ Text required
+    if (!text) {
+        closeModal();
         return;
     }
 
-    if (!text) {
-        closeModal();
+    // 🔥 HARDCORE → DEADLINE REQUIRED
+    if (isHardcore && !deadline) {
+        customAlert("🔥 Hardcore missions require a deadline.");
+        return;
+    }
+
+    // ❌ Past deadline not allowed
+    if (deadline && isPastDateTime(deadline)) {
+        customAlert("Deadline cannot be in the past.");
         return;
     }
 
@@ -4256,11 +4264,13 @@ document.getElementById("countdownDateTime").min = now;
     li.dataset.completed = "false";
     li.dataset.hardcore = isHardcore ? "true" : "false";
 
+    // Format deadline text
     let deadlineText = "";
     if (deadline) {
         const d = new Date(deadline);
-        deadlineText = `${d.toLocaleDateString([], { day: "numeric", month: "short" })}, 
-                        ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+        const date = d.toLocaleDateString([], { day: "numeric", month: "short" });
+        const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        deadlineText = `${date}, ${time}`;
     }
 
     li.innerHTML = `
@@ -4275,6 +4285,7 @@ document.getElementById("countdownDateTime").min = now;
         </div>
     `;
 
+    // Click to edit (except complete)
     li.addEventListener("click", (e) => {
         if (e.target.classList.contains("complete-btn")) return;
         openModal("edit-mission", li);
@@ -5107,6 +5118,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
