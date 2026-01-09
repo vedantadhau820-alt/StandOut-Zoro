@@ -3412,17 +3412,30 @@ image: "Images/SS14.jpg" },
                 div.className = `flex-card owned grade-${card.grade.toLowerCase()}`;
 
                 div.innerHTML = `
-      <img src="${card.image}">
-      <span class="grade-badge">${card.grade}</span>
+    <img src="${card.image}" alt="${card.title}">
+    <span class="grade-badge">${card.grade}</span>
 
-      <div class="card-body">
+    <div class="card-body">
         <h3>${card.title}</h3>
-        <p class="card-quote">"${card.quote}"</p>
-        <p style="font-size:11px; opacity:.6;">
-  Minted on ${formatDate(data.mintedAt)}
-</p>
-      </div>
-    `;
+        <p class="card-quote">${card.quote}</p>
+
+        ${
+            isOwned
+                ? `
+                  <p class="mint-date">
+                      Minted on ${mintDate}
+                  </p>
+                  <button class="buy-btn" disabled>OWNED</button>
+                `
+                : `
+                  <button class="buy-btn" ${!canBuy ? "disabled" : ""}>
+                      ${card.cost} pts
+                  </button>
+                `
+        }
+    </div>
+`;
+
 
                 container.appendChild(div);
             });
@@ -5201,6 +5214,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
