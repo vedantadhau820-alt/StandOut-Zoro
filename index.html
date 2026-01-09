@@ -1644,6 +1644,30 @@
 
     <script>
 
+        function getTodayKey() {
+    return new Date().toISOString().slice(0, 10);
+        }
+
+        function enforceDailyReset() {
+    const today = getTodayKey();
+
+    if (lastImprovementDate !== today) {
+        dailyImprovementCount = 0;
+        lastImprovementDate = today;
+
+        localStorage.setItem("dailyImprovementCount", "0");
+        localStorage.setItem("lastImprovementDate", today);
+
+        console.log("✅ Daily reset enforced:", today);
+    }
+        }
+
+        window.addEventListener("load", () => {
+    enforceDailyReset();
+});
+
+        setInterval(enforceDailyReset, 60 * 1000);
+
 function getAppSnapshot() {
     return {
         version: "2.1.0",
@@ -5161,6 +5185,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
