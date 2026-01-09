@@ -1287,6 +1287,97 @@
   opacity: 0.65;
   margin-top: 4px;
 }
+/* ===============================
+   CHEAT MODAL (APP THEME)
+================================ */
+
+.cheat-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.cheat-modal.active {
+  display: flex;
+}
+
+.cheat-box {
+  width: 90%;
+  max-width: 360px;
+  background: #111827;               /* same as modals */
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.35);
+  animation: fadeIn 0.3s ease;
+}
+
+.cheat-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: #3B82F6;                    /* app primary */
+  font-weight: 600;
+}
+
+.cheat-desc {
+  font-size: 13px;
+  opacity: 0.75;
+  margin-bottom: 1rem;
+}
+
+.cheat-input {
+  width: 95%;
+  padding: 0.7rem;
+  background: #1f2937;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  outline: none;
+  font-size: 14px;
+}
+
+.cheat-input::placeholder {
+  color: #9ca3af;
+}
+
+.cheat-input:focus {
+  outline: 2px solid #3B82F6;
+}
+
+.cheat-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.2rem;
+}
+
+.cheat-confirm {
+  flex: 1;
+  background: #3B82F6;
+  color: white;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cheat-confirm:hover {
+  background: #2563EB;
+}
+
+.cheat-cancel {
+  flex: 1;
+  background: #1f2937;
+  color: #9ca3af;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
     </style>
 </head>
 
@@ -1426,6 +1517,29 @@
         <button class="buy-btn">150 pts</button>
     </div>
 </div> -->
+    <div id="cheatModal" class="cheat-modal">
+  <div class="cheat-box">
+    <div class="cheat-header">
+      🧪 Developer Access
+    </div>
+
+    <p class="cheat-subtext">
+      Long-press detected. Enter authorization code.
+    </p>
+
+    <input 
+      id="cheatInput" 
+      class="cheat-input"
+      placeholder="Enter cheat code"
+      autocomplete="off"
+    >
+
+    <div class="cheat-actions">
+      <button class="cheat-confirm" onclick="confirmCheat()">Unlock</button>
+      <button class="cheat-cancel" onclick="closeCheatModal()">Cancel</button>
+    </div>
+  </div>
+    </div>
 
     <!-- ===========================
        Goals Section
@@ -1473,7 +1587,7 @@
 <input type="file" id="importProgressFile" accept=".json" hidden>
 
         <h3>Reset Data</h3>
-        <button onclick="customConfirm('Are you sure you want to reset all data?', resetData)" class="danger-btn">
+        <button id="resetDataBtn" onclick="customConfirm('Are you sure you want to reset all data?', resetData)" class="danger-btn">
             Reset My Data
         </button>
     </section>
@@ -5219,6 +5333,64 @@ document.getElementById("countdownCounter").textContent = "0";
             }
         });
 
+        //Cheats
+
+      let resetHoldTimer = null;
+const RESET_HOLD_DURATION = 5000; // 5 seconds
+
+const resetBtn = document.getElementById("resetDataBtn"); // your reset button ID
+
+resetBtn.addEventListener("touchstart", startResetHold);
+resetBtn.addEventListener("mousedown", startResetHold);
+
+resetBtn.addEventListener("touchend", cancelResetHold);
+resetBtn.addEventListener("mouseup", cancelResetHold);
+resetBtn.addEventListener("mouseleave", cancelResetHold);
+
+function startResetHold() {
+    resetHoldTimer = setTimeout(() => {
+        openCheatModal();
+    }, RESET_HOLD_DURATION);
+}
+
+function cancelResetHold() {
+    clearTimeout(resetHoldTimer);
+}
+        function openCheatModal() {
+    const modal = document.getElementById("cheatModal");
+    modal.classList.add("active");
+
+    setTimeout(() => {
+        document.getElementById("cheatInput").focus();
+    }, 150);
+        }
+
+function closeCheatModal() {
+    document.getElementById("cheatModal").classList.remove("active");
+}
+
+        function confirmCheat() {
+    const code = document.getElementById("cheatInput").value.trim();
+
+    if (code !== "Thala") {
+        customAlert("Invalid cheat code.");
+        return;
+    }
+
+    // ✅ CHEAT SUCCESS
+    completedMissions = 9999;
+    dailyImprovementCount = 0;
+
+    localStorage.setItem("completedMissions", completedMissions);
+    document.getElementById("missionCounter").textContent = completedMissions;
+
+    closeCheatModal();
+
+    showSmartNotification(
+        "Cheat Activated",
+        "9999 Improvement Points granted."
+    );
+        }
 
     </script>
 
@@ -5226,6 +5398,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
