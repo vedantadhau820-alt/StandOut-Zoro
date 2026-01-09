@@ -3310,31 +3310,44 @@ image: "Images/SS14.jpg" },
 
             // 4️⃣ RENDER
             cards.forEach(card => {
-                const isOwned = ownedCards[card.id];
-                const canBuy = completedMissions >= card.cost;
+    const isOwned = ownedCards[card.id];
+    const canBuy = completedMissions >= card.cost;
 
-                const div = document.createElement("div");
-                div.className = `
-      flex-card 
-      grade-${card.grade.toLowerCase()} 
-      ${isOwned ? "owned" : "locked"}
+    const mintDate =
+        isOwned && ownedCards[card.id]?.mintedAt
+            ? formatDate(ownedCards[card.id].mintedAt)
+            : "";
+
+    const div = document.createElement("div");
+    div.className = `
+        flex-card 
+        grade-${card.grade.toLowerCase()} 
+        ${isOwned ? "owned" : "locked"}
     `;
 
-                div.innerHTML = `
-      <img src="${card.image}" alt="${card.title}">
-      <span class="grade-badge">${card.grade}</span>
+    div.innerHTML = `
+        <img src="${card.image}" alt="${card.title}">
+        <span class="grade-badge">${card.grade}</span>
 
-      <div class="card-body">
-        <h3>${card.title}</h3>
-        <p class="card-quote">${card.quote}</p>
+        <div class="card-body">
+            <h3>${card.title}</h3>
+            <p class="card-quote">${card.quote}</p>
 
-        ${isOwned
-                        ? `<button class="buy-btn" disabled>OWNED</button>`
-                        : `<button class="buy-btn" ${!canBuy ? "disabled" : ""}>
-                 ${card.cost} pts
-               </button>`
-                    }
-      </div>
+            ${
+                isOwned
+                    ? `
+                      <p class="mint-date">
+                          Minted on ${mintDate}
+                      </p>
+                      <button class="buy-btn" disabled>OWNED</button>
+                    `
+                    : `
+                      <button class="buy-btn" ${!canBuy ? "disabled" : ""}>
+                          ${card.cost} pts
+                      </button>
+                    `
+            }
+        </div>
     `;
 
                 if (!isOwned && canBuy) {
@@ -5214,6 +5227,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
