@@ -4298,39 +4298,46 @@ function updateMission() {
     if (!li) return;
 
     const newText = document.getElementById("editMissionInput").value;
-    const deadlineInput = document.getElementById("editMissionDeadline");
 
-    // Update text always allowed
+    // Always allow text update
     li.querySelector(".mission-text").textContent = newText;
 
     const isHardcore = li.dataset.hardcore === "true";
 
-    // ⛔ Hardcore → block deadline changes
-    if (!isHardcore && deadlineInput) {
-        const newDeadline = deadlineInput.value;
-
-        if (isPastDateTime(newDeadline)) {
-            customAlert("Deadline cannot be in the past.");
-            return;
-        }
-
-        if (newDeadline) {
-            const d = new Date(newDeadline);
-            const date = d.toLocaleDateString([], { day: "numeric", month: "short" });
-            const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-            li.querySelector(".deadlineDisplay").textContent = `${date}, ${time}`;
-            li.dataset.deadline = newDeadline;
-        } else {
-            li.querySelector(".deadlineDisplay").textContent = "";
-            delete li.dataset.deadline;
-        }
-
-        // Reset overdue state if changed
-        delete li.dataset.deducted;
-        delete li.dataset.overdueNotified;
-        li.querySelector(".overdueMark").innerHTML = "";
+    // 🔒 HARD BLOCK: Hardcore missions cannot change deadline
+    if (isHardcore) {
+        saveData();
+        closeModal();
+        return; // ⛔ EXIT EARLY — NO DEADLINE CODE RUNS
     }
+
+    // ---- Normal mission only below ----
+    const deadlineInput = document.getElementById("editMissionDeadline");
+    if (!deadlineInput) return;
+
+    const newDeadline = deadlineInput.value;
+
+    if (isPastDateTime(newDeadline)) {
+        customAlert("Deadline cannot be in the past.");
+        return;
+    }
+
+    if (newDeadline) {
+        const d = new Date(newDeadline);
+        const date = d.toLocaleDateString([], { day: "numeric", month: "short" });
+        const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+        li.querySelector(".deadlineDisplay").textContent = `${date}, ${time}`;
+        li.dataset.deadline = newDeadline;
+    } else {
+        li.querySelector(".deadlineDisplay").textContent = "";
+        delete li.dataset.deadline;
+    }
+
+    // Reset overdue state only for non-hardcore
+    delete li.dataset.deducted;
+    delete li.dataset.overdueNotified;
+    li.querySelector(".overdueMark").innerHTML = "";
 
     saveData();
     closeModal();
@@ -5100,6 +5107,7 @@ document.getElementById("countdownCounter").textContent = "0";
 </body>
 
 </html>
+
 
 
 
