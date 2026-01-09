@@ -1378,6 +1378,68 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+    /* LIMITED EDITION BADGE */
+.limited-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  color: #0f172a;
+  background: linear-gradient(135deg, #facc15, #fde047);
+
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
+  z-index: 3;
+}
+        /* LIMITED CARD BOOST */
+.flex-card.limited {
+  border: 2px solid #facc15;
+  box-shadow:
+    0 0 18px rgba(250, 204, 21, 0.35),
+    0 0 40px rgba(250, 204, 21, 0.15);
+  transform: scale(1.02);
+}
+        /* EXPIRED OVERLAY */
+.expired-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(2px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ef4444;
+
+  z-index: 4;
+}
+        /* MINT DATE */
+.mint-date {
+  margin-top: 6px;
+  font-size: 11px;
+  opacity: 0.75;
+  color: #9ca3af;
+}
+        @keyframes limitedGlow {
+  0%   { box-shadow: 0 0 10px rgba(250,204,21,.4); }
+  50%  { box-shadow: 0 0 26px rgba(250,204,21,.8); }
+  100% { box-shadow: 0 0 10px rgba(250,204,21,.4); }
+}
+
+.flex-card.limited:not(.owned) {
+  animation: limitedGlow 2.5s infinite ease-in-out;
+}
     </style>
 </head>
 
@@ -3382,7 +3444,17 @@ image: "Images/SS14.jpg" },
   grade: "E",
   cost: 6,
   image: "Images/E1.jpg"
-}
+},
+        {
+  id: "reze",
+  title: "Reze",
+  grade: "X",
+  cost: 69,
+  image: "Images/X17.jpg",
+
+  limited: true,
+  expiresAt: "2026-01-20T23:59:59Z"
+        }    
         ];
 
 
@@ -3390,121 +3462,130 @@ image: "Images/SS14.jpg" },
         let ownedCards = JSON.parse(localStorage.getItem("ownedCards")) || {};
 
         function renderMarketplace(filterGrade = "ALL") {
-            const shop = document.getElementById("cardShop");
-            if (!shop) return;
+  const shop = document.getElementById("cardShop");
+  if (!shop) return;
 
-            shop.innerHTML = "";
+  shop.innerHTML = "";
 
-            // 1️⃣ Clone catalog (never mutate original)
-            let cards = [...cardCatalog];
+  let cards = [...cardCatalog];
 
-            // 2️⃣ Apply grade filter
-            if (filterGrade !== "ALL") {
-                cards = cards.filter(c => c.grade === filterGrade);
-            }
+  if (filterGrade !== "ALL") {
+    cards = cards.filter(c => c.grade === filterGrade);
+  }
 
-            // 3️⃣ SORT LOGIC (THIS IS THE KEY)
-            cards.sort((a, b) => {
-                const aOwned = ownedCards[a.id] ? 1 : 0;
-                const bOwned = ownedCards[b.id] ? 1 : 0;
+  // ✅ SINGLE SORT (safe)
+  cards.sort((a, b) => {
+    const aLimited = a.limited ? 1 : 0;
+    const bLimited = b.limited ? 1 : 0;
+    if (aLimited !== bLimited) return bLimited - aLimited;
 
-                // Owned cards first
-                if (aOwned !== bOwned) return bOwned - aOwned;
+    const aOwned = ownedCards[a.id] ? 1 : 0;
+    const bOwned = ownedCards[b.id] ? 1 : 0;
+    if (aOwned !== bOwned) return bOwned - aOwned;
 
-                const aCanBuy = completedMissions >= a.cost ? 1 : 0;
-                const bCanBuy = completedMissions >= b.cost ? 1 : 0;
+    const aCanBuy = completedMissions >= a.cost ? 1 : 0;
+    const bCanBuy = completedMissions >= b.cost ? 1 : 0;
+    if (aCanBuy !== bCanBuy) return bCanBuy - aCanBuy;
 
-                // Affordable cards next
-                if (aCanBuy !== bCanBuy) return bCanBuy - aCanBuy;
+    return gradeRank(b.grade) - gradeRank(a.grade);
+  });
 
-                // Higher grade first
-                return gradeRank(b.grade) - gradeRank(a.grade);
-            });
+  cards.forEach(card => {
+    const isOwned = !!ownedCards[card.id];
+    const expired = isExpired(card);
 
-            // 4️⃣ RENDER
-            cards.forEach(card => {
-    const isOwned = ownedCards[card.id];
+    if (expired && !isOwned) return;
+
     const canBuy = completedMissions >= card.cost;
-
     const mintDate =
-        isOwned && ownedCards[card.id]?.mintedAt
-            ? formatDate(ownedCards[card.id].mintedAt)
-            : "";
+      isOwned && ownedCards[card.id]?.mintedAt
+        ? formatDate(ownedCards[card.id].mintedAt)
+        : "";
 
     const div = document.createElement("div");
     div.className = `
-        flex-card 
-        grade-${card.grade.toLowerCase()} 
-        ${isOwned ? "owned" : "locked"}
+      flex-card
+      grade-${card.grade.toLowerCase()}
+      ${isOwned ? "owned" : "locked"}
+      ${card.limited ? "limited" : ""}
     `;
 
-    div.innerHTML = `
-        <img src="${card.image}" alt="${card.title}">
-        <span class="grade-badge">${card.grade}</span>
+      div.innerHTML = `
+  <img src="${card.image}">
+  <span class="grade-badge">${card.grade}</span>
 
-        <div class="card-body">
-            <h3>${card.title}</h3>
-            <p class="card-quote">${card.quote}</p>
+  ${card.limited ? `<span class="limited-badge">LIMITED</span>` : ""}
 
-            ${
-                isOwned
-                    ? `
-                      <p class="mint-date">
-                          Minted on ${mintDate}
-                      </p>
-                      <button class="buy-btn" disabled>OWNED</button>
-                    `
-                    : `
-                      <button class="buy-btn" ${!canBuy ? "disabled" : ""}>
-                          ${card.cost} pts
-                      </button>
-                    `
-            }
-        </div>
-    `;
+  <div class="card-body">
+    <h3>${card.title}</h3>
+    <p class="card-quote">${card.quote}</p>
 
-                if (!isOwned && canBuy) {
-                    div.querySelector(".buy-btn").onclick = () => buyCard(card.id);
-                }
+    ${
+      isOwned
+        ? `<button class="buy-btn" disabled>OWNED</button>`
+        : `<button class="buy-btn" ${!canBuy ? "disabled" : ""}>
+             ${card.cost} pts
+           </button>`
+    }
 
-                shop.appendChild(div);
-            });
+    ${isOwned && mintDate ? `<div class="mint-date">Minted on ${mintDate}</div>` : ""}
+  </div>
+`;
+    
+
+    if (!isOwned && canBuy && !expired) {
+      div.querySelector(".buy-btn").onclick = () => buyCard(card.id);
+    }
+
+    shop.appendChild(div);
+  });
         }
 
 
-        function buyCard(cardId) {
-            const card = cardCatalog.find(c => c.id === cardId);
-            if (!card) return;
+        function isExpired(card) {
+  if (!card.limited) return false;
+  if (!card.expiresAt) return false;
 
-            if (completedMissions < card.cost) {
-                customAlert("Not enough Improvement Points.");
-                return;
-            }
-
-            customConfirm(
-                `Mint "${card.title}" for ${card.cost} points?\nThis is permanent.`,
-                () => {
-                    completedMissions -= card.cost;
-                    document.getElementById("missionCounter").textContent = completedMissions;
-
-                    ownedCards[card.id] = {
-    owned: true,
-    mintedAt: new Date().toISOString().slice(0, 10) // YYYY-MM-DD
-};
-
-                    localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
-                    localStorage.setItem("completedMissions", completedMissions);
-
-                    renderMarketplace();
-                    renderMyCards();
-
-                    showSmartNotification(
-                        "Card Minted",
-                        `"${card.title}" is now part of your identity.`
-                    );
-                }
-            );
+  return Date.now() > new Date(card.expiresAt).getTime();
         }
+            function buyCard(cardId) {
+  const card = cardCatalog.find(c => c.id === cardId);
+  if (!card) return;
+
+  // ❌ Prevent minting expired limited cards
+  if (card.limited && isExpired(card)) {
+    customAlert("This limited edition card is no longer available.");
+    return;
+  }
+
+  if (completedMissions < card.cost) {
+    customAlert("Not enough Improvement Points.");
+    return;
+  }
+
+  customConfirm(
+    `Mint "${card.title}" for ${card.cost} points?\nThis is permanent.`,
+    () => {
+      completedMissions -= card.cost;
+      document.getElementById("missionCounter").textContent = completedMissions;
+
+      ownedCards[card.id] = {
+        mintedAt: new Date().toISOString()   // ✅ ISO format
+      };
+
+      localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
+      localStorage.setItem("completedMissions", completedMissions);
+
+      renderMarketplace();
+      renderMyCards();
+
+      showSmartNotification(
+        "Card Minted",
+        `"${card.title}" is now part of your identity.`
+      );
+    }
+  );
+            }
 
         function formatDate(isoDate) {
     if (!isoDate) return "";
@@ -5399,6 +5480,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
