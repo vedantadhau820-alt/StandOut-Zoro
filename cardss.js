@@ -255,5 +255,381 @@ image: "Images/SS14.jpg" },
     cost: 102,
     image: "Images/S17.jpg"
   },
+    {
+    id: "muzan",
+    title: "Muzan Kibutsuji",
+    quote: "Perfection is survival.",
+    grade: "S",
+    cost: 103,
+    image: "Images/S18.jpg"
+  },
+  {
+    id: "shikamaru",
+    title: "Shikamaru Nara",
+    quote: "How troublesome.",
+    grade: "S",
+    cost: 110,
+    image: "Images/S19.jpg"
+  },
+  {
+    id: "naruto",
+    title: "Naruto Uzumaki",
+    quote: "I never go back on my word!",
+    grade: "S",
+    cost: 130,
+    image: "Images/S20.jpg"
+  },
+  {
+    id: "madara",
+    title: "Madara Uchiha",
+    quote: "Wake up to reality.",
+    grade: "S",
+    cost: 109,
+    image: "Images/S21.jpg"
+  },
+  {
+    id: "all_for_one",
+    title: "All For One",
+    quote: "Heroes exist because of villains.",
+    grade: "S",
+    cost: 136,
+    image: "Images/S22.jpg"
+  },
+  {
+    id: "all_might",
+    title: "All Might",
+    quote: "I am here!",
+    grade: "S",
+    cost: 137,
+    image: "Images/S23.jpg"
+  },
+  {
+    id: "going_merry",
+    title: "Going Merry",
+    quote: " I'm sorry... I wanted to carry you even farther... But I was happy. You always treated me well. THANK YOU! I was always so happy! ",
+    grade: "S",
+    cost: 150,
+    image: "Images/S24.jpg"
+  },
+  {
+    id: "hashirama",
+    title: "Hashirama Senju",
+    quote: "Protect the village.",
+    grade: "S",
+    cost: 135,
+    image: "Images/S25.jpg"
+  },
+  {
+    id: "meruem",
+    title: "Meruem",
+    quote: "What is the value of life?",
+    grade: "S",
+    cost: 132,
+    image: "Images/S26.jpg"
+  },
+  {
+    id: "thousand_sunny",
+    title: "Thousand Sunny",
+    quote: "",
+    grade: "S",
+    cost: 150,
+    image: "Images/S27.jpg"
+  },
+{
+  id: "ichigo",
+  title: "Ichigo Kurosaki",
+  quote: "If I can’t protect them, I won’t forgive myself.",
+  grade: "S",
+  cost: 124,
+  image: "Images/S28.jpg"
+},
+{
+  id: "ryuma",
+  title: "Ryuma",
+  quote: "A sword reflects its master.",
+  grade: "S",
+  cost: 102,
+  image: "Images/S29.jpg"
+},{
+  id: "akainu",
+  title: "Akainu",
+  quote: "Absolute justice.",
+  grade: "S",
+  cost: 109,
+  image: "Images/S30.jpg"
+},
+{
+  id: "beckman",
+  title: "Benn Beckman",
+  quote: "Think before you move.",
+  grade: "S",
+  cost: 123,
+  image: "Images/S31.jpg"
+},
+            {
+  id: "yasopp",
+  title: "Yasopp",
+  quote: "A pirate never misses.",
+  grade: "S",
+  cost: 100,
+  image: "Images/S32.jpg"
+},{
+  id: "lucky_roux",
+  title: "Lucky Roux",
+  quote: "Guess I’ll eat.",
+  grade: "S",
+  cost: 120,
+  image: "Images/S33.jpg"
+},{
+  id: "magellan",
+  title: "Magellan",
+  quote: "Poison is absolute.",
+  grade: "S",
+  cost: 100,
+  image: "Images/S34.jpg"
+},{
+  id: "king",
+  title: "King",
+  quote: "I’ll never lose again.",
+  grade: "S",
+  cost: 120,
+  image: "Images/S35.jpg"
+},
+  {
+  id: "corazon",
+  title: "Donquixote Rosinante",
+  quote: "I love you.",
+  grade: "B",
+  cost: 53,
+  image: "Images/B1.jpg"
+},
 
-  
+{
+  id: "oven",
+  title: "Charlotte Oven",
+  quote: "I’ll burn everything!",
+  grade: "B",
+  cost: 62,
+  image: "Images/B2.jpg"
+},
+
+{
+  id: "jack",
+  title: "Jack",
+  quote: "I never retreat.",
+  grade: "B",
+  cost: 65,
+  image: "Images/B3.jpg"
+},
+
+{
+  id: "page_one",
+  title: "Page One",
+  quote: "I follow orders.",
+  grade: "B",
+  cost: 63,
+  image: "Images/B4.jpg"
+},
+
+{
+  id: "izou",
+  title: "Izou",
+  quote: "This is the way of the samurai.",
+  grade: "B",
+  cost: 76,
+  image: "Images/B5.jpg"
+},
+
+{
+  id: "kuma",
+  title: "Bartholomew Kuma",
+  quote: "If you were to take a trip… where would you go?",
+  grade: "B",
+  cost: 76,
+  image: "Images/B6.jpg"
+},
+
+{
+  id: "kizaru",
+  title: "Kizaru",
+  quote: "Scary, scary.",
+  grade: "B",
+  cost: 78,
+  image: "Images/B7.jpg"
+},
+
+{
+  id: "hyogoro",
+  title: "Hyogoro",
+  quote: "Haki blooms in battle.",
+  grade: "B",
+  cost: 63,
+  image: "Images/B8.jpg"
+},
+
+{
+  id: "kenpachi",
+  title: "Kenpachi Zaraki",
+  quote: "Fighting is fun.",
+  grade: "B",
+  cost: 63,
+  image: "Images/B9.jpg"
+},
+
+{
+  id: "urahara",
+  title: "Kisuke Urahara",
+  quote: "That’s interesting.",
+  grade: "B",
+  cost: 78,
+  image: "Images/B10.jpg"
+},
+
+{
+  id: "sasuke",
+  title: "Sasuke Uchiha",
+  quote: "I will sever all bonds.",
+  grade: "B",
+  cost: 63,
+  image: "Images/B11.jpg"
+},
+
+{
+  id: "giyu",
+  title: "Giyu Tomioka",
+  quote: "I am not like you.",
+  grade: "B",
+  cost: 67,
+  image: "Images/B12.jpg"
+},
+  {
+  id: "tamayo",
+  title: "Tamayo",
+  quote: "I seek redemption.",
+  grade: "B",
+  cost: 69,
+  image: "Images/B13.jpg"
+},
+
+{
+  id: "akaza",
+  title: "Akaza",
+  quote: "Become stronger.",
+  grade: "B",
+  cost: 79,
+  image: "Images/B14.jpg"
+},
+
+{
+  id: "killua",
+  title: "Killua Zoldyck",
+  quote: "Gon, you are light.",
+  grade: "B",
+  cost: 78,
+  image: "Images/B15.jpg"
+},
+
+{
+  id: "kurapika",
+  title: "Kurapika",
+  quote: "My chains bind evil.",
+  grade: "B",
+  cost: 78,
+  image: "Images/B16.jpg"
+},
+
+{
+  id: "illumi",
+  title: "Illumi Zoldyck",
+  quote: "Control is love.",
+  grade: "B",
+  cost: 68,
+  image: "Images/B17.jpg"
+},
+
+{
+  id: "shikaku",
+  title: "Shikaku Nara",
+  quote: "Think three steps ahead.",
+  grade: "B",
+  cost: 78,
+  image: "Images/B18.jpg"
+},
+
+{
+  id: "byakuya",
+  title: "Byakuya Kuchiki",
+  quote: "Pride is everything.",
+  grade: "B",
+  cost: 76,
+  image: "Images/B19.jpg"
+},
+
+{
+  id: "yamamoto",
+  title: "Genryusai Yamamoto",
+  quote: "Burn to ash.",
+  grade: "B",
+  cost: 78,
+  image: "Images/B20.jpg"
+},
+
+{
+  id: "endeavor",
+  title: "Endeavor",
+  quote: "I will surpass him.",
+  grade: "B",
+  cost: 78,
+  image: "Images/B21.jpg"
+},
+
+{
+  id: "stain",
+  title: "Stain",
+  quote: "Fake heroes disgust me.",
+  grade: "B",
+  cost: 76,
+  image: "Images/B22.jpg"
+},{
+  id: "eraser_head",
+  title: "Eraser Head",
+  quote: "Heroes don’t need applause.",
+  grade: "B",
+  cost: 62,
+  image: "Images/B23.jpg"
+},
+    {
+  id: "hawkins",
+  title: "Basil Hawkins",
+  quote: "Fate is absolute.",
+  grade: "C",
+  cost: 32,
+  image: "Images/C1.jpg"
+},
+
+{
+  id: "xdrake",
+  title: "X Drake",
+  quote: "Justice isn’t always clean.",
+  grade: "C",
+  cost: 36,
+  image: "Images/C2.jpg"
+},
+
+{
+  id: "bartolomeo",
+  title: "Bartolomeo",
+  quote: "Luffy-senpai!",
+  grade: "C",
+  cost: 56,
+  image: "Images/C3.jpg"
+},
+
+{
+  id: "smoker",
+  title: "Smoker",
+  quote: "Justice isn’t black and white.",
+  grade: "C",
+  cost: 58,
+  image: "Images/C4.jpg"
+},
