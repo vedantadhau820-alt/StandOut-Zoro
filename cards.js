@@ -1457,7 +1457,7 @@ image: "Images/SS14.jpg" },
         {
   id: "anya",
   title: "Anya",
-  quote: "Waku ! Waku !",
+  quote: "Papa and Mama are flirting.",
   grade: "w",
   cost: 11,
   image: "Images/w1.jpg",
