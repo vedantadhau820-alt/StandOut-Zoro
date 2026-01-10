@@ -148,18 +148,16 @@
    PAGE SECTIONS
 ========================================================= */
         section {
-            display: none;
-            min-height: 100vh;
-            padding: 1rem 1rem 1rem 120px;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            /* 🔥 increased */
-            margin-top: 60px;
-            box-sizing: border-box;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
+  position: fixed;
+  top: 60px;              /* height of top navbar */
+  bottom: 70px;           /* height of bottom nav */
+  left: 0;
+  right: 0;
+
+  overflow-y: auto;
+  padding: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
 
 
         /* section {
@@ -4020,6 +4018,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
