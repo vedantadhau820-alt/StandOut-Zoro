@@ -1,4 +1,4 @@
-const cardCatalog = [
+window.cardCatalog = [
 
 
 {
@@ -1199,5 +1199,269 @@ image: "Images/SS14.jpg" },
   cost: 99,
   image: "Images/A19.jpg"
 },
+{
+  id: "fujitora",
+  title: "Fujitora",
+  quote: "I want to see the world.",
+  grade: "A",
+  cost: 88,
+  image: "Images/A20.jpg"
+},
 
-  
+{
+  id: "killer_b",
+  title: "Killer B",
+  quote: "Fool, ya fool!",
+  grade: "A",
+  cost: 98,
+  image: "Images/A21.jpg"
+},
+
+{
+  id: "gaara",
+  title: "Gaara",
+  quote: "Love saves.",
+  grade: "A",
+  cost: 93,
+  image: "Images/A22.jpg"
+},
+
+{
+  id: "isshin",
+  title: "Isshin Kurosaki",
+  quote: "Protect your family.",
+  grade: "A",
+  cost: 98,
+  image: "Images/A23.jpg"
+},
+
+{
+  id: "aokiji",
+  title: "Aokiji",
+  quote: "Lazy justice.",
+  grade: "A",
+  cost: 89,
+  image: "Images/A24.jpg"
+},
+
+{
+  id: "minato",
+  title: "Minato Namikaze",
+  quote: "I’ll protect everyone.",
+  grade: "A",
+  cost: 96,
+  image: "Images/A25.jpg"
+},
+
+{
+  id: "koby",
+  title: "Koby",
+  quote: "I want to become an admiral!",
+  grade: "A",
+  cost: 89,
+  image: "Images/A26.jpg"
+},
+
+{
+  id: "nekomamushi",
+  title: "Nekomamushi",
+  quote: "Let’s party!",
+  grade: "A",
+  cost: 86,
+  image: "Images/A27.jpg"
+},
+            {
+  id: "tobirama",
+  title: "Tobirama Senju",
+  quote: "Power must be controlled.",
+  grade: "A",
+  cost: 93,
+  image: "Images/A28.jpg"
+},
+
+{
+  id: "uryu",
+  title: "Uryu Ishida",
+  quote: "Pride defines a Quincy.",
+  grade: "A",
+  cost: 98,
+  image: "Images/A29.jpg"
+},
+
+{
+  id: "chad",
+  title: "Yasutora Sado",
+  quote: "My fists exist only to protect.",
+  grade: "A",
+  cost: 99,
+  image: "Images/A30.jpg"
+},
+
+{
+  id: "pain",
+  title: "Pain",
+  quote: "This world shall know pain.",
+  grade: "A",
+  cost: 96,
+  image: "Images/A31.jpg"
+},
+
+{
+  id: "youpi",
+  title: "Menthuthuyoupi",
+  quote: "Rage is power.",
+  grade: "A",
+  cost: 92,
+  image: "Images/A32.jpg"
+},
+  {
+  id: "youpi",
+  title: "Menthuthuyoupi",
+  quote: "Rage is power.",
+  grade: "A",
+  cost: 92,
+  image: "Images/A32.jpg"
+},
+
+{
+  id: "jiraiya",
+  title: "Jiraiya",
+  quote: "The tale of Jiraiya the Gallant.",
+  grade: "A",
+  cost: 93,
+  image: "Images/A33.jpg"
+},
+
+{
+  id: "beerus",
+  title: "Beerus",
+  quote: "Destruction is my job.",
+  grade: "A",
+  cost: 95,
+  image: "Images/A34.jpg"
+},
+
+{
+  id: "midoriya",
+  title: "Izuku Midoriya",
+  quote: "This is my story!",
+  grade: "A",
+  cost: 94,
+  image: "Images/A35.jpg"
+},
+
+{
+  id: "shigaraki",
+  title: "Tomura Shigaraki",
+  quote: "Everything decays.",
+  grade: "A",
+  cost: 98,
+  image: "Images/A36.jpg"
+},
+
+{
+  id: "zenitsu",
+  title: "Zenitsu Agatsuma",
+  quote: "I don’t want to die!",
+  grade: "A",
+  cost: 96,
+  image: "Images/A37.jpg"
+},
+
+{
+  id: "inosuke",
+  title: "Inosuke Hashibira",
+  quote: "I’m the strongest!",
+  grade: "A",
+  cost: 93,
+  image: "Images/A38.jpg"
+},
+
+{
+  id: "rengoku",
+  title: "Kyojuro Rengoku",
+  quote: "Set your heart ablaze!",
+  grade: "A",
+  cost: 81,
+  image: "Images/A39.jpg"
+},
+
+{
+  id: "kokushibo",
+  title: "Kokushibo",
+  quote: "Strength is eternal.",
+  grade: "A",
+  cost: 83,
+  image: "Images/A40.jpg"
+},
+
+{
+  id: "gon",
+  title: "Gon Freecss",
+  quote: "I want to see my dad.",
+  grade: "A",
+  cost: 98,
+  image: "Images/A41.jpg"
+},
+
+{
+  id: "pitou",
+  title: "Neferpitou",
+  quote: "I must protect the king.",
+  grade: "A",
+  cost: 98,
+  image: "Images/A42.jpg"
+},
+  {
+  id: "chrollo",
+  title: "Chrollo Lucilfer",
+  quote: "Identity is meaningless.",
+  grade: "A",
+  cost: 98,
+  image: "Images/A43.jpg"
+},
+
+{
+  id: "shaiapouf",
+  title: "Shaiapouf",
+  quote: "The king is everything.",
+  grade: "A",
+  cost: 91,
+  image: "Images/A44.jpg"
+},
+
+{
+  id: "sabo",
+  title: "Sabo",
+  quote: "I won’t let anyone take away my freedom.",
+  grade: "A",
+  cost: 89,
+  image: "Images/A45.jpg"
+        },
+{
+  id: "hado",
+  title: "Nejire Hado",
+  quote: "That’s amazing!",
+  grade: "E",
+  cost: 9,
+  image: "Images/E2.jpg"
+},
+{
+  id: "apoo",
+  title: "Scratchmen Apoo",
+  quote: "Music is my weapon!",
+  grade: "E",
+  cost: 6,
+  image: "Images/E1.jpg"
+},
+        {
+  id: "anya",
+  title: "Anya",
+  grade: "w",
+  cost: 11,
+  image: "Images/w1.jpg",
+
+  limited: true,
+  expiresAt: "2026-01-10T23:59:09Z"
+        }    
+        ];
