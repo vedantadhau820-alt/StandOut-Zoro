@@ -12,7 +12,7 @@ window.cardCatalog = [
 {
   id: "imu",
   title: "Imu",
-  quote: "Erase them from history.",
+  quote: "Erase them from history. ",
   grade: "SS",
   cost: 189,
   image: "Images/SS2.jpg"
