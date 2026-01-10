@@ -148,22 +148,24 @@
    PAGE SECTIONS
 ========================================================= */
         section {
-  position: fixed;
-  top: 60px;              /* height of top navbar */
-  bottom: 70px;           /* height of bottom nav */
-  left: 0;
-  right: 0;
+            display: none;
+            min-height: 100vh;
+            padding: 1rem 1rem 1rem 120px;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            /* 🔥 increased */
+            margin-top: 60px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
 
-  overflow-y: auto;
-  padding: 1rem;
-  -webkit-overflow-scrolling: touch;
-}
 
-
-        /* section {
+        section {
             min-height: calc(100vh - 55px - 100px);
             height: auto;
-        } */
+        }
 
         #account {
             height: auto !important;
@@ -4018,6 +4020,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
