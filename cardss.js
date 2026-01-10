@@ -633,3 +633,571 @@ image: "Images/SS14.jpg" },
   cost: 58,
   image: "Images/C4.jpg"
 },
+
+{
+  id: "ivankov",
+  title: "Ivankov",
+  quote: "Love is freedom!",
+  grade: "C",
+  cost: 52,
+  image: "Images/C5.jpg"
+},
+
+{
+  id: "kyros",
+  title: "Kyros",
+  quote: "A father never gives up.",
+  grade: "C",
+  cost: 53,
+  image: "Images/C6.jpg"
+},
+
+{
+  id: "zeff",
+  title: "Zeff",
+  quote: "Never waste food.",
+  grade: "C",
+  cost: 46,
+  image: "Images/C7.jpg"
+},
+
+{
+  id: "roshi",
+  title: "Master Roshi",
+  quote: "Train hard, rest harder.",
+  grade: "C",
+  cost: 46,
+  image: "Images/C8.jpg"
+},
+
+{
+  id: "uraraka",
+  title: "Ochaco Uraraka",
+  quote: "Who protects the heroes?",
+  grade: "C",
+  cost: 46,
+  image: "Images/C9.jpg"
+},
+
+{
+  id: "todoroki",
+  title: "Shoto Todoroki",
+  quote: "It’s my power.",
+  grade: "C",
+  cost: 59,
+  image: "Images/C10.jpg"
+},
+
+{
+  id: "iida",
+  title: "Tenya Iida",
+  quote: "Rules exist for a reason!",
+  grade: "C",
+  cost: 56,
+  image: "Images/C11.jpg"
+},
+
+{
+  id: "hawks",
+  title: "Hawks",
+  quote: "I want an easy life.",
+  grade: "C",
+  cost: 63,
+  image: "Images/C12.jpg"
+},
+
+{
+  id: "dabi",
+  title: "Dabi",
+  quote: "Burn it all.",
+  grade: "C",
+  cost: 53,
+  image: "Images/C13.jpg"
+},
+
+{
+  id: "overhaul",
+  title: "Overhaul",
+  quote: "Cleanliness is justice.",
+  grade: "C",
+  cost: 54,
+  image: "Images/C14.jpg"
+},
+
+{
+  id: "leorio",
+  title: "Leorio Paradinight",
+  quote: "I want to save lives.",
+  grade: "C",
+  cost: 56,
+  image: "Images/C15.jpg"
+},
+
+{
+  id: "hisoka",
+  title: "Hisoka",
+  quote: "I’m turned on.",
+  grade: "C",
+  cost: 32,
+  image: "Images/C16.jpg"
+},
+  {
+    id: "doma",
+  title: "Doma",
+  quote: "Everything feels empty.",
+  grade: "C",
+  cost: 46,
+  image: "Images/C17.jpg"
+},
+
+{
+  id: "goku_black",
+  title: "Goku Black",
+  quote: "Justice shall prevail.",
+  grade: "C",
+  cost: 32,
+  image: "Images/C18.jpg"
+},
+
+{
+  id: "hitsugaya",
+  title: "Toshiro Hitsugaya",
+  quote: "Freeze.",
+  grade: "C",
+  cost: 56,
+  image: "Images/C19.jpg"
+},
+            {
+  id: "orochimaru",
+  title: "Orochimaru",
+  quote: "Life is meaningless without knowledge.",
+  grade: "D",
+  cost: 36,
+  image: "Images/D1.jpg"
+},
+{
+  id: "bakugo",
+  title: "Katsuki Bakugo",
+  quote: "I’ll win!",
+  grade: "D",
+  cost: 46,
+  image: "Images/D2.jpg"
+},
+
+{
+  id: "tokoyami",
+  title: "Fumikage Tokoyami",
+  quote: "Darkness answers my call.",
+  grade: "D",
+  cost: 32,
+  image: "Images/D3.jpg"
+},
+
+{
+  id: "amajiki",
+  title: "Tamaki Amajiki",
+  quote: "I’m not confident…",
+  grade: "D",
+  cost: 35,
+  image: "Images/D4.jpg"
+},
+{
+  id: "krillin",
+  title: "Krillin",
+  quote: "I won’t give up!",
+  grade: "D",
+  cost: 36,
+  image: "Images/D5.jpg"
+},
+
+{
+  id: "buggy",
+  title: "Buggy",
+  quote: "I’m gonna be Pirate King!",
+  grade: "D",
+  cost: 23,
+  image: "Images/D6.jpg"
+},
+    {
+  id: "nami",
+  title: "Nami",
+  quote: "Money can buy happiness.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X1.jpg"
+},
+
+{
+  id: "robin",
+  title: "Nico Robin",
+  quote: "I want to live!",
+  grade: "X",
+  cost: 69,
+  image: "Images/X2.jpg"
+},
+
+{
+  id: "boa",
+  title: "Boa Hancock",
+  quote: "Whatever I do… will be forgiven.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X3.jpg"
+},
+
+{
+  id: "pudding",
+  title: "Charlotte Pudding",
+  quote: "I hate you… I love you.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X4.jpg"
+},
+
+{
+  id: "black_maria",
+  title: "Black Maria",
+  quote: "Pain makes love deeper.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X5.jpg"
+},
+
+{
+  id: "ulti",
+  title: "Ulti",
+  quote: "Say it properly!",
+  grade: "X",
+  cost: 69,
+  image: "Images/X6.jpg"
+},
+
+{
+  id: "bonney",
+  title: "Jewelry Bonney",
+  quote: "I’ll take back what’s mine.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X7.jpg"
+},
+    {
+  id: "linlin",
+  title: "Linlin",
+  quote: "Life or treat!",
+  grade: "X",
+  cost: 69,
+  image: "Images/X8.jpg"
+},
+
+{
+  id: "reiju",
+  title: "Reiju",
+  quote: "Kindness is strength.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X9.jpg"
+},
+
+{
+  id: "bulma",
+  title: "Bulma",
+  quote: "I’m a genius, you know.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X10.jpg"
+},
+
+{
+  id: "orihime",
+  title: "Orihime Inoue",
+  quote: "I want to protect everyone.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X11.jpg"
+},
+{
+  id: "tsunade",
+  title: "Tsunade",
+  quote: "I am the Hokage.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X12.jpg"
+},
+
+{
+  id: "shiba",
+  title: "Ichigo Shiba",
+  quote: "I’ll protect everyone.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X13.jpg"
+},
+
+{
+  id: "rangiku",
+  title: "Rangiku Matsumoto",
+  quote: "Life should be enjoyed.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X14.jpg"
+},
+
+{
+  id: "rebecca",
+  title: "Rebecca",
+  quote: "I will fight!",
+  grade: "X",
+  cost: 69,
+  image: "Images/X15.jpg"
+},
+
+{
+  id: "power",
+  title: "Power",
+  quote: "I am the strongest!",
+  grade: "X",
+  cost: 69,
+  image: "Images/X16.jpg"
+},
+
+{
+  id: "reze",
+  title: "Reze",
+  quote: "Do you like bombs?",
+  grade: "X",
+  cost: 69,
+  image: "Images/X17.jpg"
+},
+
+{
+  id: "midnight",
+  title: "Midnight",
+  quote: "Youth is passion!",
+  grade: "X",
+  cost: 69,
+  image: "Images/X18.jpg"
+},
+  {
+  id: "yaoyorozu",
+  title: "Momo Yaoyorozu",
+  quote: "I will do my best.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X19.jpg"
+},
+
+{
+  id: "mitsuri",
+  title: "Mitsuri Kanroji",
+  quote: "Love is my strength!",
+  grade: "X",
+  cost: 69,
+  image: "Images/X20.jpg"
+},
+
+{
+  id: "shinobu",
+  title: "Shinobu Kocho",
+  quote: "Ara ara.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X21.jpg"
+},
+
+{
+  id: "nezuko",
+  title: "Nezuko Kamado",
+  quote: "Mm!",
+  grade: "X",
+  cost: 69,
+  image: "Images/X22.jpg"
+},
+
+{
+  id: "rukia",
+  title: "Rukia Kuchiki",
+  quote: "Trust yourself.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X23.jpg"
+},
+
+{
+  id: "temari",
+  title: "Temari",
+  quote: "Strategy decides battles.",
+  grade: "X",
+  cost: 69,
+  image: "Images/X24.jpg"
+},
+            {
+  id: "vegeta",
+  title: "Vegeta",
+  quote: "I am the prince of all Saiyans!",
+  grade: "A",
+  cost: 79,
+  image: "Images/A1.jpg"
+},
+
+{
+  id: "brook",
+  title: "Brook",
+  quote: "May I see your panties?",
+  grade: "A",
+  cost: 102,
+  image: "Images/A2.jpg"
+},
+
+{
+  id: "chopper",
+  title: "Tony Tony Chopper",
+  quote: "I’m not a monster… I’m a doctor!",
+  grade: "A",
+  cost: 95,
+  image: "Images/A3.jpg"
+},
+  {
+  id: "franky",
+  title: "Franky",
+  quote: "SUPER!",
+  grade: "A",
+  cost: 92,
+  image: "Images/A4.jpg"
+},
+
+{
+  id: "ace",
+  title: "Portgas D. Ace",
+  quote: "Thank you… for loving me.",
+  grade: "A",
+  cost: 95,
+  image: "Images/A5.jpg"
+},
+
+{
+  id: "cracker",
+  title: "Charlotte Cracker",
+  quote: "Pain is weakness.",
+  grade: "A",
+  cost: 76,
+  image: "Images/A6.jpg"
+},
+
+{
+  id: "perospero",
+  title: "Charlotte Perospero",
+  quote: "Lick, lick!",
+  grade: "A",
+  cost: 73,
+  image: "Images/A7.jpg"
+},
+
+{
+  id: "queen",
+  title: "Queen",
+  quote: "Zoom zoom zoom!",
+  grade: "A",
+  cost: 81,
+  image: "Images/A8.jpg"
+},
+
+{
+  id: "inuarashi",
+  title: "Inuarashi",
+  quote: "We fight together!",
+  grade: "A",
+  cost: 87,
+  image: "Images/A9.jpg"
+},
+
+{
+  id: "carrot",
+  title: "Carrot",
+  quote: "I want to see the world!",
+  grade: "A",
+  cost: 88,
+  image: "Images/A10.jpg"
+},
+
+{
+  id: "kinemon",
+  title: "Kin’emon",
+  quote: "Loyalty is my way of life.",
+  grade: "A",
+  cost: 82,
+  image: "Images/A11.jpg"
+},
+
+{
+  id: "kiku",
+  title: "Kikunojo",
+  quote: "My heart is that of a samurai.",
+  grade: "A",
+  cost: 89,
+  image: "Images/A12.jpg"
+},
+
+{
+  id: "pedro",
+  title: "Pedro",
+  quote: "Everyone gets their time to shine.",
+  grade: "A",
+  cost: 87,
+  image: "Images/A13.jpg"
+},
+
+{
+  id: "law",
+  title: "Trafalgar Law",
+  quote: "I hate bread.",
+  grade: "A",
+  cost: 94,
+  image: "Images/A14.jpg"
+},
+
+{
+  id: "hajrudin",
+  title: "Hajrudin",
+  quote: "Giants never kneel!",
+  grade: "A",
+  cost: 97,
+  image: "Images/A15.jpg"
+},
+
+{
+  id: "dorry",
+  title: "Dorry",
+  quote: "We fight with honor!",
+  grade: "A",
+  cost: 93,
+  image: "Images/A16.jpg"
+},
+
+{
+  id: "brogy",
+  title: "Brogy",
+  quote: "Warriors never regret!",
+  grade: "A",
+  cost: 93,
+  image: "Images/A17.jpg"
+},
+
+{
+  id: "crocodile",
+  title: "Crocodile",
+  quote: "Trust is weakness.",
+  grade: "A",
+  cost: 93,
+  image: "Images/A18.jpg"
+},
+
+{
+  id: "bon_clay",
+  title: "Bon Clay",
+  quote: "Friendship has no borders!",
+  grade: "A",
+  cost: 99,
+  image: "Images/A19.jpg"
+},
+
+  
