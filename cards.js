@@ -1457,6 +1457,7 @@ image: "Images/SS14.jpg" },
         {
   id: "anya",
   title: "Anya",
+  quote: "Waku ! Waku !",
   grade: "w",
   cost: 11,
   image: "Images/w1.jpg",
