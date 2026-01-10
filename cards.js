@@ -86,7 +86,7 @@ window.cardCatalog = [
   title: "Sosuke Aizen",
   quote: "Admiration is the furthest thing from understanding.",
   grade: "SS",
-  cost: 146,
+  cost: 152,
   image: "Images/SS11.jpg"
 },
 {
@@ -228,7 +228,7 @@ image: "Images/SS14.jpg" },
     title: "Ging Freecss",
     quote: "You should enjoy the little detours.",
     grade: "S",
-    cost: 92,
+    cost: 99,
     image: "Images/S14.jpg"
   },
   {
@@ -1044,7 +1044,7 @@ image: "Images/SS14.jpg" },
   title: "Brook",
   quote: "May I see your panties?",
   grade: "A",
-  cost: 102,
+  cost: 98,
   image: "Images/A2.jpg"
 },
 
@@ -1435,7 +1435,7 @@ image: "Images/SS14.jpg" },
   title: "Sabo",
   quote: "I won’t let anyone take away my freedom.",
   grade: "A",
-  cost: 89,
+  cost: 98,
   image: "Images/A45.jpg"
         },
 {
