@@ -151,5 +151,109 @@ image: "Images/SS14.jpg" },
     cost: 103,
     image: "Images/S4.jpg"
   },
+  {
+    id: "jimbei",
+    title: "Jimbei",
+    quote: "What matters is not the past, but the future.",
+    grade: "S",
+    cost: 99,
+    image: "Images/S5.jpg"
+  },
+  {
+    id: "vegapunk",
+    title: "Dr. Vegapunk",
+    quote: "Science exists for the benefit of humanity.",
+    grade: "S",
+    cost: 99,
+    image: "Images/S6.jpg"
+  },
+  {
+    id: "lucci",
+    title: "Rob Lucci",
+    quote: "I kill because it’s my job.",
+    grade: "S",
+    cost: 106,
+    image: "Images/S7.jpg"
+  },
+  {
+    id: "katakuri",
+    title: "Charlotte Katakuri",
+    quote: "If you want to surpass me… see the future.",
+    grade: "S",
+    cost: 140,
+    image: "Images/S8.jpg"
+  },
+  {
+    id: "momonosuke",
+    title: "Kozuki Momonosuke",
+    quote: "I am the man who will become Shogun of Wano!",
+    grade: "S",
+    cost: 145,
+    image: "Images/S9.jpg"
+  },
+  {
+    id: "usopp",
+    title: "Usopp",
+    quote: "I’m a brave warrior of the sea!",
+    grade: "S",
+    cost: 101,
+    image: "Images/S10.jpg"
+  },
+  {
+    id: "mihawk",
+    title: "Dracule Mihawk",
+    quote: "Power determines everything.",
+    grade: "S",
+    cost: 112,
+    image: "Images/S11.jpg"
+  },
+  {
+    id: "marco",
+    title: "Marco",
+    quote: "Relax… we’ve got your back.",
+    grade: "S",
+    cost: 126,
+    image: "Images/S12.jpg"
+  },
+  {
+    id: "yamato",
+    title: "Yamato",
+    quote: "I am Kozuki Oden!",
+    grade: "S",
+    cost: 128,
+    image: "Images/S13.jpg"
+  },
+  {
+    id: "ging",
+    title: "Ging Freecss",
+    quote: "You should enjoy the little detours.",
+    grade: "S",
+    cost: 92,
+    image: "Images/S14.jpg"
+  },
+  {
+    id: "oden",
+    title: "Kozuki Oden",
+    quote: "I was born to boil!",
+    grade: "S",
+    cost: 126,
+    image: "Images/S15.jpg"
+  },
+  {
+    id: "goku",
+    title: "Goku",
+    quote: "I am the hope of the universe!",
+    grade: "S",
+    cost: 129,
+    image: "Images/S16.jpg"
+  },
+  {
+    id: "tanjiro",
+    title: "Tanjiro Kamado",
+    quote: "I won’t forgive you.",
+    grade: "S",
+    cost: 102,
+    image: "Images/S17.jpg"
+  },
 
   
