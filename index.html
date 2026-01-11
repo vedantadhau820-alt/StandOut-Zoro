@@ -2066,7 +2066,8 @@ window.loadProgressFromFile = loadProgressFromFile;
            </button>`
     }
 
-    ${isOwned && mintDate ? `<div class="mint-date">Minted on ${mintDate}</div>` : ""}
+    ${isOwned && mintDate ? `<div class="mint-date">Minted on ${mintDate}</div>
+    <p>Card Cost ${card.cost} pts</p>` : ""}
   </div>
 `;
     
@@ -4018,6 +4019,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
