@@ -14,6 +14,7 @@ const urlsToCache = [
   "/m4.mp3",
   "/m5.mp3",
   "/m6.mp3",
+  "/cards.js",
   // SS
   "/Images/SS1.jpg",
   "/Images/SS2.jpg",
@@ -198,6 +199,9 @@ const urlsToCache = [
   // E
   "/Images/E1.jpg",
   "/Images/E2.jpg"
+
+  //w
+  "/Images/w1.jpg
 ];
 
 self.addEventListener("install", event => {
@@ -221,6 +225,7 @@ self.addEventListener("fetch", event => {
     caches.match(event.request).then(res => res || fetch(event.request))
   );
 });
+
 
 
 
