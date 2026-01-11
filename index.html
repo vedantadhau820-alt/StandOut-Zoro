@@ -1882,13 +1882,14 @@
         }
 
         function openCardImage(src) {
-            alert("Clicked!");
   const popup = document.getElementById("cardImagePopup");
   const img = document.getElementById("popupCardImage");
 
   img.src = src;
   popup.style.display = "flex";
 }
+
+window.openCardImage = openCardImage;
 
 function closeCardImage() {
   const popup = document.getElementById("cardImagePopup");
@@ -4097,6 +4098,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
