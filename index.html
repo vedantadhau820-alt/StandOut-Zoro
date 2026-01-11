@@ -1485,19 +1485,16 @@
     opacity: 1;
   }
 }
-.flex-card {
-  pointer-events: none !important;
-}
-
-.flex-card img {
-  pointer-events: auto !important;
-  position: relative;
-  z-index: 999;
-}
 .grade-badge,
 .limited-badge,
 .expired-overlay {
   pointer-events: none;
+}
+
+.flex-card img {
+  cursor: zoom-in;
+  position: relative;
+  z-index: 2;
 }
     </style>
 </head>
@@ -2247,11 +2244,7 @@ window.loadProgressFromFile = loadProgressFromFile;
                 div.className = `flex-card owned grade-${card.grade.toLowerCase()}`;
 
                 div.innerHTML = `
-    <img 
-  src="${card.image}" 
-  onclick="alert('Clicked')"
-  style="cursor: zoom-in;"
->
+    <img src="${card.image}" onclick="openCardImage('${card.image}')">
     <span class="grade-badge">${card.grade}</span>
 
     <div class="card-body">
@@ -2279,6 +2272,10 @@ window.loadProgressFromFile = loadProgressFromFile;
                 container.appendChild(div);
             });
         }
+
+        window.openCardImage = function (src) {
+  alert("Clicked"); // now it WILL fire
+};
 
         const GRADE_ORDER = ["E", "D", "C", "B", "A", "X", "S", "SS"];
 
@@ -4112,6 +4109,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
