@@ -201,7 +201,7 @@ const urlsToCache = [
   "/Images/E2.jpg"
 
   //w
-  "/Images/w1.jpg
+  "/Images/w1.jpg"
 ];
 
 self.addEventListener("install", event => {
@@ -225,6 +225,7 @@ self.addEventListener("fetch", event => {
     caches.match(event.request).then(res => res || fetch(event.request))
   );
 });
+
 
 
 
