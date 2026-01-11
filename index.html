@@ -1441,6 +1441,50 @@
 .flex-card.limited:not(.owned) {
   animation: limitedGlow 2.5s infinite ease-in-out;
 }
+.card-image-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.card-image-popup img {
+  max-width: 92%;
+  max-height: 85%;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+  animation: zoomIn 0.25s ease;
+}
+
+.close-popup {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
     </style>
 </head>
 
@@ -1579,7 +1623,12 @@
 
         <button class="buy-btn">150 pts</button>
     </div>
-</div> -->
+    <!-- Full Image Popup -->
+<div id="cardImagePopup" class="card-image-popup">
+  <span class="close-popup">✕</span>
+  <img id="popupCardImage" src="" alt="Card Full View">
+</div>
+    
     <div id="cheatModal" class="cheat-modal">
   <div class="cheat-box">
     <div class="cheat-header">
@@ -1831,6 +1880,30 @@
   console.error("❌ cardCatalog not loaded");
   window.cardCatalog = [];
         }
+
+        function openCardImage(src) {
+  const popup = document.getElementById("cardImagePopup");
+  const img = document.getElementById("popupCardImage");
+
+  img.src = src;
+  popup.style.display = "flex";
+}
+
+function closeCardImage() {
+  const popup = document.getElementById("cardImagePopup");
+  const img = document.getElementById("popupCardImage");
+
+  img.src = "";
+  popup.style.display = "none";
+}
+
+// Close button
+document.querySelector(".close-popup").onclick = closeCardImage;
+
+// Close when clicking background
+document.getElementById("cardImagePopup").onclick = (e) => {
+  if (e.target.id === "cardImagePopup") closeCardImage();
+};
 
         function getTodayKey() {
     return new Date().toISOString().slice(0, 10);
@@ -2158,7 +2231,11 @@ window.loadProgressFromFile = loadProgressFromFile;
                 div.className = `flex-card owned grade-${card.grade.toLowerCase()}`;
 
                 div.innerHTML = `
-    <img src="${card.image}" alt="${card.title}">
+    <img 
+  src="${card.image}" 
+  onclick="openCardImage('${card.image}')"
+  style="cursor: zoom-in;"
+>
     <span class="grade-badge">${card.grade}</span>
 
     <div class="card-body">
@@ -4019,6 +4096,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
