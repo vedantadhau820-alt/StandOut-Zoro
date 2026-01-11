@@ -1078,71 +1078,109 @@
 ========================= */
 
         .flex-card {
-            background: #0b1220;
-            border-radius: 14px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid #1f2937;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
+  position: relative;
+  height: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0b1220;
+  border: 1px solid #1f2937;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
 
-        .flex-card img {
-            width: 100%;
-            height: 110px;
-            z-index: -12;
-            object-fit: cover;
-            object-position: top;
-            filter: contrast(1.1) brightness(0.9);
-        }
+/* Full image */
+.card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  filter: brightness(0.7) contrast(1.1);
+}
 
-        .flex-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-        }
+/* Dark gradient overlay */
+.flex-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85),
+    rgba(0, 0, 0, 0.2)
+  );
+  z-index: 1;
+}
 
-        .card-body {
-            padding: 10px;
-        }
+/* Content on top */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+}
+        .card-overlay h3 {
+  font-size: 14px;
+  color: #fff;
+  margin: 0;
+}
 
-        .flex-card h3 {
-            font-size: 14px;
-            margin: 0;
-            color: #fff;
-        }
+.card-quote {
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
 
-        .card-quote {
-            font-size: 12px;
-            opacity: 0.75;
-            margin: 6px 0 10px;
-            line-height: 1.4;
-        }
+.buy-btn {
+  margin-top: 6px;
+  padding: 6px;
+  border-radius: 8px;
+  font-size: 12px;
+  background: rgba(17, 24, 39, 0.85);
+  border: 1px solid #3B82F6;
+  color: #3B82F6;
+}
 
-        .buy-btn {
-            width: 100%;
-            padding: 6px;
-            background: #111827;
-            border: 1px solid #3B82F6;
-            color: #3B82F6;
-            border-radius: 8px;
-            font-size: 12px;
-            cursor: pointer;
-        }
+.buy-btn:hover {
+  background: #3B82F6;
+  color: #000;
+}
 
-        .buy-btn:hover {
-            background: #3B82F6;
-            color: #000;
-        }
+.mint-date {
+  font-size: 11px;
+  opacity: 0.7;
+}
+        .grade-badge,
+.limited-badge {
+  position: absolute;
+  z-index: 3;
+}
 
-        .grade-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            font-weight: bold;
-            font-size: 14px;
-            padding: 4px 8px;
-            border-radius: 8px;
-        }
+.grade-badge {
+  top: 8px;
+  right: 8px;
+}
 
+.limited-badge {
+  top: 8px;
+  left: 8px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: bold;
+}
+        .flex-card.locked .card-bg {
+  filter: grayscale(1) brightness(0.5);
+}
+
+.flex-card.owned {
+  border-color: #3B82F6;
+}
         /* Grade Colors */
         .grade-s .grade-badge {
             background: gold;
@@ -2008,11 +2046,12 @@ window.loadProgressFromFile = loadProgressFromFile;
 
   let cards = [...window.cardCatalog];
 
+  // Filter
   if (filterGrade !== "ALL") {
     cards = cards.filter(c => c.grade === filterGrade);
   }
 
-  // ✅ SINGLE SORT (safe)
+  // Single safe sort
   cards.sort((a, b) => {
     const aLimited = a.limited ? 1 : 0;
     const bLimited = b.limited ? 1 : 0;
@@ -2033,6 +2072,7 @@ window.loadProgressFromFile = loadProgressFromFile;
     const isOwned = !!ownedCards[card.id];
     const expired = isExpired(card);
 
+    // Hide expired limited cards if not owned
     if (expired && !isOwned) return;
 
     const canBuy = completedMissions >= card.cost;
@@ -2049,29 +2089,44 @@ window.loadProgressFromFile = loadProgressFromFile;
       ${card.limited ? "limited" : ""}
     `;
 
-      div.innerHTML = `
-  <img src="${card.image}">
-  <span class="grade-badge">${card.grade}</span>
+    div.innerHTML = `
+      <img src="${card.image}" class="card-bg">
 
-  ${card.limited ? `<span class="limited-badge">LIMITED</span>` : ""}
+      <span class="grade-badge">${card.grade}</span>
 
-  <div class="card-body">
-    <h3>${card.title}</h3>
-    <p class="card-quote">${card.quote}</p>
+      ${
+        card.limited
+          ? `<span class="limited-badge">
+               ${card.editionTag || "LIMITED"}
+             </span>`
+          : ""
+      }
 
-    ${
-      isOwned
-        ? `<button class="buy-btn" disabled>OWNED</button>`
-        : `<button class="buy-btn" ${!canBuy ? "disabled" : ""}>
-             ${card.cost} pts
-           </button>`
-    }
+      <div class="card-overlay">
+        <h3>${card.title}</h3>
+        <p class="card-quote">${card.quote}</p>
 
-    ${isOwned && mintDate ? `<div class="mint-date">Minted on ${mintDate}</div>
-    <div class="mint-date">Card Cost ${card.cost} pts</div>` : ""}
-  </div>
-`;
-    
+        ${
+          isOwned
+            ? `<button class="buy-btn" disabled>OWNED</button>`
+            : expired
+              ? `<button class="buy-btn" disabled>EXPIRED</button>`
+              : `<button class="buy-btn" ${!canBuy ? "disabled" : ""}>
+                   ${card.cost} pts
+                 </button>`
+        }
+
+        ${
+          isOwned && mintDate
+            ? `<div class="mint-date">Minted on ${mintDate}</div>`
+            : card.limited && !expired
+              ? `<div class="mint-date">
+                   Ends ${formatDate(card.expiresAt)}
+                 </div>`
+              : ""
+        }
+      </div>
+    `;
 
     if (!isOwned && canBuy && !expired) {
       div.querySelector(".buy-btn").onclick = () => buyCard(card.id);
@@ -2080,6 +2135,7 @@ window.loadProgressFromFile = loadProgressFromFile;
     shop.appendChild(div);
   });
         }
+        
 
 
         function isExpired(card) {
@@ -2138,55 +2194,62 @@ window.loadProgressFromFile = loadProgressFromFile;
         }
 
         function renderMyCards() {
-            const container = document.getElementById("ownedCards");
-            if (!container) return;
+  const container = document.getElementById("ownedCards");
+  if (!container) return;
 
-            container.innerHTML = "";
+  container.innerHTML = "";
 
-            const ownedList = window.cardCatalog
-                .filter(card => ownedCards[card.id])
-                .sort((a, b) => gradeRank(b.grade) - gradeRank(a.grade));
+  const ownedList = window.cardCatalog
+    .filter(card => ownedCards[card.id])
+    .sort((a, b) => gradeRank(b.grade) - gradeRank(a.grade));
 
-            if (ownedList.length === 0) {
-                container.innerHTML = `<p style="opacity:.6;">No cards minted yet.</p>`;
-                return;
-            }
+  if (ownedList.length === 0) {
+    container.innerHTML = `<p style="opacity:.6;">No cards minted yet.</p>`;
+    return;
+  }
 
-            ownedList.forEach(card => {
-                const data = ownedCards[card.id];
+  ownedList.forEach(card => {
+    const data = ownedCards[card.id];
+    const mintDate = data?.mintedAt
+      ? formatDate(data.mintedAt)
+      : "";
 
-                const div = document.createElement("div");
-                div.className = `flex-card owned grade-${card.grade.toLowerCase()}`;
+    const div = document.createElement("div");
+    div.className = `
+      flex-card
+      owned
+      grade-${card.grade.toLowerCase()}
+    `;
 
-                div.innerHTML = `
-    <img src="${card.image}" alt="${card.title}">
-    <span class="grade-badge">${card.grade}</span>
+    div.innerHTML = `
+      <img src="${card.image}" class="card-bg">
 
-    <div class="card-body">
+      <span class="grade-badge">${card.grade}</span>
+
+      ${
+        card.limited
+          ? `<span class="limited-badge">
+               ${card.editionTag || "LIMITED"}
+             </span>`
+          : ""
+      }
+
+      <div class="card-overlay">
         <h3>${card.title}</h3>
         <p class="card-quote">${card.quote}</p>
 
-        ${
-            isOwned
-                ? `
-                  <p class="mint-date">
-                      Minted on ${mintedAt}
-                  </p>
-                  <button class="buy-btn" disabled>OWNED</button>
-                `
-                : `
-                  <button class="buy-btn" ${!canBuy ? "disabled" : ""}>
-                      ${card.cost} pts
-                  </button>
-                `
-        }
-    </div>
-`;
+        <div class="mint-date">
+          Minted on ${mintDate}
+        </div>
 
+        <button class="buy-btn" disabled>OWNED</button>
+      </div>
+    `;
 
-                container.appendChild(div);
-            });
-        }
+    container.appendChild(div);
+  });
+}
+        
 
         const GRADE_ORDER = ["E", "D", "C", "B", "A", "X", "S", "SS"];
 
@@ -4020,6 +4083,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
