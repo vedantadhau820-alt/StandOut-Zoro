@@ -2244,7 +2244,20 @@ window.loadProgressFromFile = loadProgressFromFile;
                 div.className = `flex-card owned grade-${card.grade.toLowerCase()}`;
 
                 div.innerHTML = `
-    <img src="${card.image}" onclick="openCardImage('${card.image}')">
+    <img
+  src="${card.image}"
+  style="
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 100000;
+    background: red;
+  "
+  onclick="alert('CLICKED FOR REAL')"
+/>
     <span class="grade-badge">${card.grade}</span>
 
     <div class="card-body">
@@ -4109,6 +4122,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
