@@ -2116,7 +2116,7 @@ window.loadProgressFromFile = loadProgressFromFile;
       document.getElementById("missionCounter").textContent = completedMissions;
 
       ownedCards[card.id] = {
-        mintedAt: getISTDate().toISOString()  // ✅ ISO format
+        mintedAt: getISTDate().toISOString().slice(0,10); // ✅ ISO format
       };
 
       localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
@@ -4026,6 +4026,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
