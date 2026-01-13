@@ -3288,7 +3288,7 @@ function checkMissedDeadlines() {
 
 
         function completeMission(btn) {
-    resetDailyImprovementIfNeeded();
+    enforceDailyReset();
 
     const li = btn.closest("li");
     const linkedSkill = li.dataset.skill;
@@ -4048,6 +4048,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
