@@ -1892,7 +1892,7 @@ function getAppSnapshot() {
 
     completedMissions = Number(data.completedMissions) || 0;
     dailyImprovementCount = Number(data.dailyImprovementCount) || 0;
-    lastImprovementDate = data.lastImprovementDate || getISTDate().toDateString().slice(0,10);
+    lastImprovementDate = data.lastImprovementDate || getISTDate().toISOString().slice(0,10);
 
     localStorage.setItem("missions", data.missions || "");
     localStorage.setItem("skills", data.skills || "");
@@ -1985,10 +1985,10 @@ window.loadProgressFromFile = loadProgressFromFile;
         const DAILY_IMPROVEMENT_LIMIT = 10;
 
         let dailyImprovementCount = parseInt(localStorage.getItem("dailyImprovementCount")) || 0;
-        let lastImprovementDate = localStorage.getItem("lastImprovementDate") || getISTDate().toDateString().slice(0,10);
+        let lastImprovementDate = localStorage.getItem("lastImprovementDate") || getISTDate().toISOString().slice(0,10);
 
         function resetDailyImprovementIfNeeded() {
-    const today = getISTDate().toDateString().slice(0,10);
+    const today = getISTDate().toISOString().slice(0,10);
 
     if (lastImprovementDate !== today) {
         localStorage.setItem("dailyImprovementCount", "0");
@@ -2394,7 +2394,7 @@ function gradeRank(grade) {
             appNotifications.unshift({
                 title,
                 msg,
-                time: getISTDate().toLocaleString().slice()
+                time: getISTDate().toISOString().slice(0,10)
             });
 
             updateNotificationBadge();
@@ -2525,7 +2525,7 @@ function gradeRank(grade) {
         }
 
         function dailyGoalReminder() {
-            const today = getISTDate().toDateString().slice();
+            const today = getISTDate().toISOString().slice(0,10);
             const lastRun = localStorage.getItem("dailyGoalReminder");
 
             if (lastRun === today) return; // already sent today
@@ -2686,7 +2686,7 @@ function gradeRank(grade) {
 
     if (ach && !ach.unlocked) {
         ach.unlocked = true;
-        ach.unlockedAt = getISTDate().toDateString().slice(0,10); // 🔥 ADD THIS
+        ach.unlockedAt = getISTDate().toISOString().slice(0,10); // 🔥 ADD THIS
 
         localStorage.setItem("achievements", JSON.stringify(achievementsData));
 
@@ -3015,7 +3015,7 @@ function gradeRank(grade) {
 <button onclick="closeModal()">Cancel</button>
 
     `;
-    const now = getISTDate().toDateString().slice(0,10);
+    const now = getISTDate().toISOString().slice(0,10);
 document.getElementById("countdownDateTime").min = now;
 
             }
@@ -3616,7 +3616,7 @@ function checkMissedDeadlines() {
     countdowns.push({
         title,
         date: new Date(dateTime).toISOString(),
-        startTime: getISTDate().toDateString().slice(0,10)
+        startTime: getISTDate().toISOString().slice(0,10)
     });
 
     saveCountdowns();
@@ -3843,7 +3843,7 @@ function checkMissedDeadlines() {
             appNotifications = [];
 
             dailyImprovementCount = 0;
-lastImprovementDate = getISTDate().toDateString().slice(0,10);
+lastImprovementDate = getISTDate().toISOString().slice(0,10);
 
 localStorage.removeItem("dailyImprovementCount");
 localStorage.removeItem("lastImprovementDate");
@@ -4028,6 +4028,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
