@@ -1833,8 +1833,14 @@
   window.cardCatalog = [];
         }
 
+        function getISTDate() {
+  return new Date(
+    new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  );
+}
+
         function getTodayKey() {
-    return new Date().toISOString().slice(0, 10);
+    return getISTDate().toISOString().slice(0, 10);
         }
 
         function enforceDailyReset() {
@@ -1860,7 +1866,7 @@
 function getAppSnapshot() {
     return {
         version: "2.1.0",
-        exportedAt: new Date().toISOString(),
+        exportedAt: getISTDate().toISOString().slice(0,10),
 
         completedMissions,
         dailyImprovementCount,
@@ -1884,7 +1890,7 @@ function getAppSnapshot() {
 
     completedMissions = Number(data.completedMissions) || 0;
     dailyImprovementCount = Number(data.dailyImprovementCount) || 0;
-    lastImprovementDate = data.lastImprovementDate || new Date().toDateString();
+    lastImprovementDate = data.lastImprovementDate || getISTDate().toISOString().slice(0,10);
 
     localStorage.setItem("missions", data.missions || "");
     localStorage.setItem("skills", data.skills || "");
@@ -1977,10 +1983,10 @@ window.loadProgressFromFile = loadProgressFromFile;
         const DAILY_IMPROVEMENT_LIMIT = 10;
 
         let dailyImprovementCount = parseInt(localStorage.getItem("dailyImprovementCount")) || 0;
-        let lastImprovementDate = localStorage.getItem("lastImprovementDate") || new Date().toDateString();
+        let lastImprovementDate = localStorage.getItem("lastImprovementDate") || getISTDate().toISOString().slice(0,10);
 
         function resetDailyImprovementIfNeeded() {
-    const today = new Date().toDateString();
+    const today = getISTDate().toISOString().slice(0,10);
 
     if (lastImprovementDate !== today) {
         localStorage.setItem("dailyImprovementCount", "0");
@@ -2110,7 +2116,7 @@ window.loadProgressFromFile = loadProgressFromFile;
       document.getElementById("missionCounter").textContent = completedMissions;
 
       ownedCards[card.id] = {
-        mintedAt: new Date().toISOString()   // ✅ ISO format
+        mintedAt: getISTDate().toISOString()  // ✅ ISO format
       };
 
       localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
@@ -4020,6 +4026,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
