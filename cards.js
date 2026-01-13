@@ -330,7 +330,7 @@ image: "Images/SS14.jpg" },
   {
     id: "thousand_sunny",
     title: "Thousand Sunny",
-    quote: "",
+    quote: "It will be a ship that will cross thousands of rigorous oceans cheerfully, just like the sun",
     grade: "S",
     cost: 150,
     image: "Images/S27.jpg"
