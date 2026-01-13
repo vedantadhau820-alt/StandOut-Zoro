@@ -1833,8 +1833,16 @@
   window.cardCatalog = [];
         }
 
+        function getISTDate() {
+  return new Date(
+    new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Kolkata"
+    })
+  );
+        }
+
         function getTodayKey() {
-    return new Date().toISOString().slice(0, 10);
+  return getISTDate().toISOString().slice(0, 10);
         }
 
         function enforceDailyReset() {
@@ -1860,7 +1868,7 @@
 function getAppSnapshot() {
     return {
         version: "2.1.0",
-        exportedAt: new Date().toISOString(),
+        exportedAt: getISTDate().toISOString().slice(0,10);
 
         completedMissions,
         dailyImprovementCount,
@@ -1884,7 +1892,7 @@ function getAppSnapshot() {
 
     completedMissions = Number(data.completedMissions) || 0;
     dailyImprovementCount = Number(data.dailyImprovementCount) || 0;
-    lastImprovementDate = data.lastImprovementDate || new Date().toDateString();
+    lastImprovementDate = data.lastImprovementDate || getISTDate().toDateString().slice(0,10);
 
     localStorage.setItem("missions", data.missions || "");
     localStorage.setItem("skills", data.skills || "");
@@ -1977,10 +1985,10 @@ window.loadProgressFromFile = loadProgressFromFile;
         const DAILY_IMPROVEMENT_LIMIT = 10;
 
         let dailyImprovementCount = parseInt(localStorage.getItem("dailyImprovementCount")) || 0;
-        let lastImprovementDate = localStorage.getItem("lastImprovementDate") || new Date().toDateString();
+        let lastImprovementDate = localStorage.getItem("lastImprovementDate") || getISTDate().toDateString().slice(0,10);
 
         function resetDailyImprovementIfNeeded() {
-    const today = new Date().toDateString();
+    const today = getISTDate().toDateString().slice(0,10);
 
     if (lastImprovementDate !== today) {
         localStorage.setItem("dailyImprovementCount", "0");
@@ -2110,7 +2118,7 @@ window.loadProgressFromFile = loadProgressFromFile;
       document.getElementById("missionCounter").textContent = completedMissions;
 
       ownedCards[card.id] = {
-        mintedAt: new Date().toISOString()   // ✅ ISO format
+        mintedAt: getISTDate().toISOString().slice(0,10);   // ✅ ISO format
       };
 
       localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
@@ -2386,7 +2394,7 @@ function gradeRank(grade) {
             appNotifications.unshift({
                 title,
                 msg,
-                time: new Date().toLocaleString()
+                time: getISTDate().toLocaleString().slice()
             });
 
             updateNotificationBadge();
@@ -2517,7 +2525,7 @@ function gradeRank(grade) {
         }
 
         function dailyGoalReminder() {
-            const today = new Date().toDateString();
+            const today = getISTDate().toDateString().slice();
             const lastRun = localStorage.getItem("dailyGoalReminder");
 
             if (lastRun === today) return; // already sent today
@@ -2678,7 +2686,7 @@ function gradeRank(grade) {
 
     if (ach && !ach.unlocked) {
         ach.unlocked = true;
-        ach.unlockedAt = new Date().toDateString(); // 🔥 ADD THIS
+        ach.unlockedAt = getISTDate().toDateString().slice(0,10); // 🔥 ADD THIS
 
         localStorage.setItem("achievements", JSON.stringify(achievementsData));
 
@@ -3007,7 +3015,7 @@ function gradeRank(grade) {
 <button onclick="closeModal()">Cancel</button>
 
     `;
-    const now = new Date().toISOString().slice(0, 16);
+    const now = getISTDate().toDateString().slice(0,10);
 document.getElementById("countdownDateTime").min = now;
 
             }
@@ -3608,7 +3616,7 @@ function checkMissedDeadlines() {
     countdowns.push({
         title,
         date: new Date(dateTime).toISOString(),
-        startTime: new Date().toISOString()
+        startTime: getISTDate().toDateString().slice(0,10)
     });
 
     saveCountdowns();
@@ -3835,7 +3843,7 @@ function checkMissedDeadlines() {
             appNotifications = [];
 
             dailyImprovementCount = 0;
-lastImprovementDate = new Date().toDateString();
+lastImprovementDate = getISTDate().toDateString().slice(0,10);
 
 localStorage.removeItem("dailyImprovementCount");
 localStorage.removeItem("lastImprovementDate");
@@ -4020,6 +4028,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
