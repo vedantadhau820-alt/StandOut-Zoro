@@ -1442,6 +1442,11 @@
 .flex-card.limited:not(.owned) {
   animation: limitedGlow 2.5s infinite ease-in-out;
 }
+.cheat-btn {
+  margin-top: 12px;
+  padding: 10px;
+  font-weight: bold;
+        }
     </style>
 </head>
 
@@ -1602,6 +1607,9 @@
       <button class="cheat-confirm" onclick="confirmCheat()">Unlock</button>
       <button class="cheat-cancel" onclick="closeCheatModal()">Cancel</button>
     </div>
+      <button onclick="skipDayCheat()" class="cheat-btn">
+  ⏭ Skip Day
+      </button>
   </div>
     </div>
 
@@ -4006,12 +4014,41 @@ function closeCheatModal() {
     );
         }
 
+        function skipDayCheat() {
+  // Get current logical day
+  const currentDay = lastImprovementDate
+    ? new Date(lastImprovementDate)
+    : new Date();
+
+  // Move +1 day
+  currentDay.setDate(currentDay.getDate() + 1);
+
+  const nextDayKey = currentDay.toISOString().slice(0, 10);
+
+  // Apply skip
+  lastImprovementDate = nextDayKey;
+  dailyImprovementCount = 0;
+
+  localStorage.setItem("lastImprovementDate", nextDayKey);
+  localStorage.setItem("dailyImprovementCount", "0");
+
+  closeCheatModal();
+
+  showSmartNotification(
+    "⏭ Day Skipped",
+    `New day activated (${nextDayKey})`
+  );
+
+  console.log("⏭ Day skipped to:", nextDayKey);
+};
+
     </script>
 
 
 </body>
 
 </html>
+
 
 
 
