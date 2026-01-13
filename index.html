@@ -1985,21 +1985,7 @@ window.loadProgressFromFile = loadProgressFromFile;
         let dailyImprovementCount = parseInt(localStorage.getItem("dailyImprovementCount")) || 0;
         let lastImprovementDate = localStorage.getItem("lastImprovementDate") || getISTDate().toISOString().slice(0,10);
 
-        function resetDailyImprovementIfNeeded() {
-    const today = getISTDate().toISOString().slice(0,10);
-
-    if (lastImprovementDate !== today) {
-        localStorage.setItem("dailyImprovementCount", "0");
-        localStorage.setItem("lastImprovementDate", today);
-    }
-
-    // 🔐 Always sync from storage after reset
-    dailyImprovementCount =
-        parseInt(localStorage.getItem("dailyImprovementCount")) || 0;
-    lastImprovementDate =
-        localStorage.getItem("lastImprovementDate") || today;
-        }
-
+        
 
         let isMarketplaceOpen = false;
 
@@ -2028,7 +2014,7 @@ window.loadProgressFromFile = loadProgressFromFile;
     const bOwned = ownedCards[b.id] ? 1 : 0;
     if (aOwned !== bOwned) return bOwned - aOwned;
 
-    const aCanBuy = completedMissions >= a.cost ? 1 : 0;
+const aCanBuy = completedMissions >= a.cost ? 1 : 0;
     const bCanBuy = completedMissions >= b.cost ? 1 : 0;
     if (aCanBuy !== bCanBuy) return bCanBuy - aCanBuy;
 
@@ -2116,7 +2102,7 @@ window.loadProgressFromFile = loadProgressFromFile;
       document.getElementById("missionCounter").textContent = completedMissions;
 
       ownedCards[card.id] = {
-        mintedAt: getISTDate().toISOString().slice(0,10); // ✅ ISO format
+        mintedAt: getISTDate().toISOString().slice(0,10) // ✅ ISO format
       };
 
       localStorage.setItem("ownedCards", JSON.stringify(ownedCards));
@@ -3935,11 +3921,11 @@ document.getElementById("countdownCounter").textContent = "0";
         }
 
 
+        
         /* =========================================================
            10. INITIALIZATION
         ========================================================= */
         window.addEventListener("load", () => {
-            resetDailyImprovementIfNeeded()
             renderAchievements();
             renderCountdowns();
             loadData();
@@ -4026,6 +4012,7 @@ function closeCheatModal() {
 </body>
 
 </html>
+
 
 
 
